@@ -4,8 +4,8 @@
 
 # SS
 
-![login](".github/assets/totalpos-login.png")
+![login](./.github/assets/totalpos-login.png)
 
-![users](".github/assets/totalpos-users.png")
+![users](.github/assets/totalpos-users.png)
 
-![products](".github/assets/totalpos-products.png")
+![products](.github/assets/totalpos-products.png)
