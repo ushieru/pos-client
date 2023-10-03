@@ -28,7 +28,7 @@ class TablesService {
 
   Future<Table> updateTable(
       String jwt, int tableId, CreateTableDTO createTableDTO) async {
-    final response = await http.post(
+    final response = await http.put(
       Uri.http(Settings.serverHost, '/tables/$tableId'),
       headers: {
         'Authorization': 'Bearer $jwt',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' hide Table;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:total_pos/models/dto/create_table_dto.dart';
 import 'package:total_pos/models/settings.dart';
 import 'package:total_pos/models/table.dart';
 import 'package:total_pos/providers/tables_state_provider.dart';
@@ -14,6 +15,7 @@ class TablesRoute extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tables = ref.watch(tablesStateProvider);
+    final tableMethods = ref.watch(tablesStateProvider.notifier);
     return DashboardLayout(
         child: Column(children: [
       Panel(
@@ -35,16 +37,21 @@ class TablesRoute extends ConsumerWidget {
                       for (int j = 0; j < 9; j++)
                         Expanded(
                             child: tables[(i * 10) + j] == null
-                                ? DragTarget(
-                                    builder: (context, candidateData,
-                                            rejectedData) =>
+                                ? DragTarget<Table>(
+                                    onAccept: (table) {
+                                      final updateTableDTO = CreateTableDTO(
+                                          name: table.name,
+                                          posX: i + 1,
+                                          posY: j + 1);
+                                      tableMethods.updateTable(
+                                          table, updateTableDTO);
+                                    },
+                                    builder: (context, candidateData, rejectedData) =>
                                         Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey.shade700
-                                              .withAlpha(100),
-                                          border: Border.all())
-                                    )
-                                  )
+                                            decoration: BoxDecoration(
+                                                color: Colors.grey.shade700
+                                                    .withAlpha(100),
+                                                border: Border.all())))
                                 : Draggable<Table>(
                                     data: tables[(i * 10) + j],
                                     feedback: Container(
@@ -65,9 +72,7 @@ class TablesRoute extends ConsumerWidget {
                                                 .withAlpha(100),
                                             border: Border.all()),
                                         child: Text(tables[(i * 10) + j]!.name,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headlineLarge))))
+                                            style: Theme.of(context).textTheme.headlineLarge))))
                     ]))
                 ]))
     ]));
