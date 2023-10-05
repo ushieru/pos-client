@@ -31,10 +31,10 @@ class TablesRoute extends ConsumerWidget {
           child: tables.isEmpty
               ? const LinearProgressIndicator()
               : Column(children: [
-                  for (int i = 0; i < 4; i++)
+                  for (int i = 0; i < 5; i++)
                     Expanded(
                         child: Row(children: [
-                      for (int j = 0; j < 9; j++)
+                      for (int j = 0; j < 10; j++)
                         Expanded(
                             child: tables[(i * 10) + j] == null
                                 ? DragTarget<Table>(
