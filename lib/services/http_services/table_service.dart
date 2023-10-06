@@ -39,4 +39,11 @@ class TablesService {
     final json = jsonDecode(response.body);
     return Table.fromJson(json);
   }
+
+  Future<bool> deleteTable(String jwt, int tableId) async {
+    final response = await http.delete(
+        Uri.http(Settings.serverHost, '/tables/$tableId'),
+        headers: {'Authorization': 'Bearer $jwt'});
+    return response.statusCode == 200;
+  }
 }

@@ -62,4 +62,9 @@ class TablesStateProvider extends StateNotifier<List<Table?>> {
         authState.jwtToken, table.id, createTableDTO);
     getTables();
   }
+
+  Future<void> deleteTable(Table table) async {
+    await _tablesService.deleteTable(authState.jwtToken, table.id);
+    getTables();
+  }
 }

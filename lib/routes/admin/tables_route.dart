@@ -8,12 +8,19 @@ import 'package:total_pos/widgets/dialogs/create/create_table_dialog.dart';
 import 'package:total_pos/widgets/layouts/dashboard_layout.dart';
 import 'package:total_pos/widgets/panel.dart';
 
-class TablesRoute extends ConsumerWidget {
+class TablesRoute extends ConsumerStatefulWidget {
   static const String routeName = '/admin/tables';
   const TablesRoute({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState createState() => _TablesRouteState();
+}
+
+class _TablesRouteState extends ConsumerState {
+  bool _isVisibleDeleteDrop = false;
+
+  @override
+  Widget build(BuildContext context) {
     final tables = ref.watch(tablesStateProvider);
     final tableMethods = ref.watch(tablesStateProvider.notifier);
     return DashboardLayout(
@@ -21,11 +28,26 @@ class TablesRoute extends ConsumerWidget {
       Panel(
           child: Text('Mesas', style: Theme.of(context).textTheme.titleLarge)),
       Panel(
-          child: Row(children: [
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         ElevatedButton.icon(
             onPressed: () => showCreateTableDialog(context),
             icon: const Icon(Icons.add),
-            label: const Text('Nueva Mesa'))
+            label: const Text('Nueva Mesa')),
+        if (_isVisibleDeleteDrop)
+          DragTarget<Table>(
+              onAccept: (table) => tableMethods.deleteTable(table),
+              builder: (context, candidateData, rejectedData) => Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 30, vertical: 3),
+                    decoration:
+                        BoxDecoration(border: Border.all(color: Colors.red)),
+                    child: const Row(children: [
+                      Icon(Icons.delete, color: Colors.red),
+                      SizedBox(width: 10),
+                      Text('Eliminar mesa'),
+                    ]),
+                  )),
       ])),
       ExpandedPanel(
           child: tables.isEmpty
@@ -54,6 +76,10 @@ class TablesRoute extends ConsumerWidget {
                                                 border: Border.all())))
                                 : Draggable<Table>(
                                     data: tables[(i * 10) + j],
+                                    onDragStarted: () => setState(
+                                        () => _isVisibleDeleteDrop = true),
+                                    onDragEnd: (_) => setState(
+                                        () => _isVisibleDeleteDrop = false),
                                     feedback: Container(
                                         width: 100,
                                         height: 100,
@@ -65,14 +91,7 @@ class TablesRoute extends ConsumerWidget {
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .headlineLarge)),
-                                    child: Container(
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                            color: Settings.primaryColor
-                                                .withAlpha(100),
-                                            border: Border.all()),
-                                        child: Text(tables[(i * 10) + j]!.name,
-                                            style: Theme.of(context).textTheme.headlineLarge))))
+                                    child: Container(alignment: Alignment.center, decoration: BoxDecoration(color: Settings.primaryColor.withAlpha(100), border: Border.all()), child: Text(tables[(i * 10) + j]!.name, style: Theme.of(context).textTheme.headlineLarge))))
                     ]))
                 ]))
     ]));
