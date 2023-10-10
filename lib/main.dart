@@ -7,7 +7,7 @@ import 'package:total_pos/models/settings.dart';
 import 'package:total_pos/router.dart';
 
 void main() {
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(ProviderScope(child: MyApp()));
   // doWhenWindowReady(() {
   //   final window = appWindow;
   //   const initialSize = Size(1280, 720);
@@ -20,7 +20,9 @@ void main() {
 }
 
 class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final _router = Router().build();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,7 +35,7 @@ class MyApp extends ConsumerWidget {
           colorScheme: ColorScheme.fromSeed(
               seedColor: Settings.primaryColor, brightness: Brightness.dark),
           useMaterial3: true),
-      routerConfig: Router().build(),
+      routerConfig: _router,
     ));
   }
 }
