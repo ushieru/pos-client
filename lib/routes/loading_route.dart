@@ -10,10 +10,15 @@ class LoadingRoute extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref
-        .read(settingsStateProvider.notifier)
-        .init()
-        .then((value) => context.go(LoginRoute.routeName));
+    final settings = ref.read(settingsStateProvider);
+    ref.listen(settingsStateProvider, (_, settings) {
+      if (settings != null) {
+        context.go(LoginRoute.routeName);
+      }
+    });
+    if (settings == null) {
+      ref.read(settingsStateProvider.notifier).init();
+    }
     return const Scaffold(
         body: Center(
             child: Card(

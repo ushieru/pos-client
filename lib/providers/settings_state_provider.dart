@@ -4,13 +4,11 @@ import 'package:total_pos/models/settings.dart';
 import 'package:total_pos/utils/colors.dart';
 
 final settingsStateProvider =
-    StateNotifierProvider<SettingsStateProvider, Settings>(
+    StateNotifierProvider<SettingsStateProvider, Settings?>(
         (ref) => SettingsStateProvider());
 
-class SettingsStateProvider extends StateNotifier<Settings> {
-  SettingsStateProvider() : super(Settings()) {
-    init();
-  }
+class SettingsStateProvider extends StateNotifier<Settings?> {
+  SettingsStateProvider() : super(null);
 
   Future<void> init() async {
     final preferences = await SharedPreferences.getInstance();
