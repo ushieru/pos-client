@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:total_pos/providers/init_backend_provider.dart';
 import 'package:total_pos/providers/settings_state_provider.dart';
 import 'package:total_pos/routes/login_route.dart';
 
@@ -11,7 +10,6 @@ class LoadingRoute extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(initBackendStateProvider);
     ref
         .read(settingsStateProvider.notifier)
         .init()
