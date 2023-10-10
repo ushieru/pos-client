@@ -1,22 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Router;
 // import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:total_pos/models/product.dart';
 import 'package:total_pos/providers/settings_state_provider.dart';
-import 'package:total_pos/routes/admin/categories_route.dart';
-import 'package:total_pos/routes/admin/config_route.dart';
-import 'package:total_pos/routes/admin/dashboard_route.dart';
-import 'package:total_pos/routes/cashier/cashier_dashboard_route.dart';
-import 'package:total_pos/routes/cashier/cashier_sales/cashier_sales_route.dart';
-import 'package:total_pos/routes/loading_route.dart';
-import 'package:total_pos/routes/login_route.dart';
-import 'package:total_pos/routes/admin/product_category_route.dart';
-import 'package:total_pos/routes/admin/products_route.dart';
-import 'package:total_pos/routes/admin/tables_route.dart';
-import 'package:total_pos/routes/admin/users_route.dart';
 import 'package:total_pos/models/settings.dart';
+import 'package:total_pos/router.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -39,61 +27,13 @@ class MyApp extends ConsumerWidget {
     ref.watch(settingsStateProvider);
     return OKToast(
         child: MaterialApp.router(
-            debugShowCheckedModeBanner: false,
-            title: 'Point Of Sale',
-            theme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(
-                    seedColor: Settings.primaryColor,
-                    brightness: Brightness.dark),
-                useMaterial3: true),
-            routerConfig: _router));
+      debugShowCheckedModeBanner: false,
+      title: 'Point Of Sale',
+      theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: Settings.primaryColor, brightness: Brightness.dark),
+          useMaterial3: true),
+      routerConfig: Router().build(),
+    ));
   }
 }
-
-final _router = GoRouter(routes: [
-  GoRoute(
-    path: LoadingRoute.routeName,
-    builder: (_, __) => const LoadingRoute(),
-  ),
-  GoRoute(
-    path: LoginRoute.routeName,
-    builder: (_, __) => LoginRoute(),
-  ),
-  GoRoute(
-    path: DashboardRoute.routeName,
-    builder: (_, __) => const DashboardRoute(),
-  ),
-  GoRoute(
-    path: UsersRoute.routeName,
-    builder: (_, __) => const UsersRoute(),
-  ),
-  GoRoute(
-    path: ProductsRoute.routeName,
-    builder: (_, __) => const ProductsRoute(),
-  ),
-  GoRoute(
-    path: CategoriesdRoute.routeName,
-    builder: (_, __) => const CategoriesdRoute(),
-  ),
-  GoRoute(
-    path: ProductCategoryRoute.routeName,
-    builder: (_, state) =>
-        ProductCategoryRoute(product: state.extra as Product),
-  ),
-  GoRoute(
-    path: TablesRoute.routeName,
-    builder: (_, __) => const TablesRoute(),
-  ),
-  GoRoute(
-    path: ConfigRoute.routeName,
-    builder: (_, __) => const ConfigRoute(),
-  ),
-  GoRoute(
-    path: CashierDashboardRoute.routeName,
-    builder: (_, __) => const CashierDashboardRoute(),
-  ),
-  GoRoute(
-    path: CashierSalesRoute.routeName,
-    builder: (_, __) => const CashierSalesRoute(),
-  ),
-]);
