@@ -5,9 +5,11 @@ import 'package:total_pos/models/ticket.dart';
 import 'package:total_pos/models/settings.dart';
 
 class TicketService {
+  final _apiVersion = '/api/v1';
+  
   Future<List<Ticket>> getTickets(String jwt) async {
     try {
-      final response = await http.get(Uri.http(Settings.serverHost, '/tickets'),
+      final response = await http.get(Uri.http(Settings.serverHost, '$_apiVersion/tickets'),
           headers: {'Authorization': 'Bearer $jwt'});
       final jsonList = jsonDecode(response.body) as List<dynamic>;
       return jsonList.map((json) => Ticket.fromJson(json)).toList();
@@ -21,7 +23,7 @@ class TicketService {
   Future<Ticket> getTicketByID(String jwt, int ticketId) async {
     try {
       final response = await http.get(
-          Uri.http(Settings.serverHost, '/tickets/$ticketId'),
+          Uri.http(Settings.serverHost, '$_apiVersion/tickets/$ticketId'),
           headers: {'Authorization': 'Bearer $jwt'});
       final jsonTicket = jsonDecode(response.body);
       return Ticket.fromJson(jsonTicket);
@@ -35,7 +37,7 @@ class TicketService {
   Future<Ticket> createTicket(String jwt) async {
     try {
       final response = await http.post(
-          Uri.http(Settings.serverHost, '/tickets'),
+          Uri.http(Settings.serverHost, '$_apiVersion/tickets'),
           headers: {'Authorization': 'Bearer $jwt'});
       final jsonTicket = jsonDecode(response.body);
       return Ticket.fromJson(jsonTicket);
@@ -49,7 +51,7 @@ class TicketService {
   Future<bool> deleteTicket(String jwt, int ticketId) async {
     try {
       final response = await http.delete(
-          Uri.http(Settings.serverHost, '/tickets/$ticketId'),
+          Uri.http(Settings.serverHost, '$_apiVersion/tickets/$ticketId'),
           headers: {'Authorization': 'Bearer $jwt'});
       return response.statusCode == 200;
     } catch (e) {
@@ -64,7 +66,7 @@ class TicketService {
     try {
       final response = await http.post(
           Uri.http(
-              Settings.serverHost, '/tickets/$ticketId/products/$productId'),
+              Settings.serverHost, '$_apiVersion/tickets/$ticketId/products/$productId'),
           headers: {'Authorization': 'Bearer $jwt'});
       final jsonList = jsonDecode(response.body);
       return Ticket.fromJson(jsonList);
@@ -80,7 +82,7 @@ class TicketService {
     try {
       final response = await http.delete(
           Uri.http(
-              Settings.serverHost, '/tickets/$ticketId/products/$productId'),
+              Settings.serverHost, '$_apiVersion/tickets/$ticketId/products/$productId'),
           headers: {'Authorization': 'Bearer $jwt'});
       final jsonList = jsonDecode(response.body);
       return Ticket.fromJson(jsonList);

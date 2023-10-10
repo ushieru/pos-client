@@ -6,8 +6,10 @@ import 'package:total_pos/models/settings.dart';
 import 'package:total_pos/models/table.dart';
 
 class TablesService {
+  final _apiVersion = '/api/v1';
+  
   Future<List<Table>> getTables(String jwt) async {
-    final response = await http.get(Uri.http(Settings.serverHost, '/tables'),
+    final response = await http.get(Uri.http(Settings.serverHost, '$_apiVersion/tables'),
         headers: {'Authorization': 'Bearer $jwt'});
     final jsonList = jsonDecode(response.body) as List<dynamic>;
     return jsonList.map((json) => Table.fromJson(json)).toList();
@@ -15,7 +17,7 @@ class TablesService {
 
   Future<Table> createTable(String jwt, CreateTableDTO createTableDTO) async {
     final response = await http.post(
-      Uri.http(Settings.serverHost, '/tables'),
+      Uri.http(Settings.serverHost, '$_apiVersion/tables'),
       headers: {
         'Authorization': 'Bearer $jwt',
         'Content-Type': 'application/json'
@@ -29,7 +31,7 @@ class TablesService {
   Future<Table> updateTable(
       String jwt, int tableId, CreateTableDTO createTableDTO) async {
     final response = await http.put(
-      Uri.http(Settings.serverHost, '/tables/$tableId'),
+      Uri.http(Settings.serverHost, '$_apiVersion/tables/$tableId'),
       headers: {
         'Authorization': 'Bearer $jwt',
         'Content-Type': 'application/json'
@@ -42,7 +44,7 @@ class TablesService {
 
   Future<bool> deleteTable(String jwt, int tableId) async {
     final response = await http.delete(
-        Uri.http(Settings.serverHost, '/tables/$tableId'),
+        Uri.http(Settings.serverHost, '$_apiVersion/tables/$tableId'),
         headers: {'Authorization': 'Bearer $jwt'});
     return response.statusCode == 200;
   }

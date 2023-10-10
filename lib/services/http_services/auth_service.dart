@@ -5,10 +5,12 @@ import 'package:total_pos/models/errors/response_error.dart';
 import 'package:total_pos/models/settings.dart';
 
 class AuthService {
+  final _apiVersion = '/api/v1';
+
   Future<(AuthResponseDTO?, ErrorResponse?)> login(
       String username, String password) async {
     final response = await http.post(
-        Uri.http(Settings.serverHost, '/auth/login'),
+        Uri.http(Settings.serverHost, '$_apiVersion/auth/login'),
         body: {'username': username, 'password': password});
     final jsonResponse = jsonDecode(response.body);
     if (response.statusCode != 200) {

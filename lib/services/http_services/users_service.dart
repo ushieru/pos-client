@@ -5,9 +5,11 @@ import 'package:total_pos/models/user.dart';
 import 'package:total_pos/models/settings.dart';
 
 class UsersService {
+  final _apiVersion = '/api/v1';
+  
   Future<List<User>> getUsers(String jwt) async {
     try {
-      final response = await http.get(Uri.http(Settings.serverHost, '/users'),
+      final response = await http.get(Uri.http(Settings.serverHost, '$_apiVersion/users'),
           headers: {'Authorization': 'Bearer $jwt'});
       final jsonList = jsonDecode(response.body) as List<dynamic>;
       return jsonList.map((json) => User.fromJson(json)).toList();

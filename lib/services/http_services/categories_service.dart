@@ -6,10 +6,12 @@ import 'package:total_pos/models/dto/update_category_dto.dart';
 import 'package:total_pos/models/settings.dart';
 
 class CategoriesService {
+  final _apiVersion = '/api/v1';
+
   Future<List<Category>> getCategories(String jwt) async {
     try {
       final response = await http.get(
-          Uri.http(Settings.serverHost, '/categories'),
+          Uri.http(Settings.serverHost, '$_apiVersion/categories'),
           headers: {'Authorization': 'Bearer $jwt'});
       final jsonList = jsonDecode(response.body) as List<dynamic>;
       return jsonList.map((json) => Category.fromJson(json)).toList();
@@ -23,7 +25,7 @@ class CategoriesService {
   Future<Category> createCategory(String jwt, String categoryName) async {
     try {
       final response = await http.post(
-          Uri.http(Settings.serverHost, '/categories'),
+          Uri.http(Settings.serverHost, '$_apiVersion/categories'),
           headers: {'Authorization': 'Bearer $jwt'},
           body: {'name': categoryName});
       final jsonCategory = jsonDecode(response.body);
@@ -39,7 +41,7 @@ class CategoriesService {
       String jwt, UpdateCategoryDTO updateCategoryDTO) async {
     try {
       final response = await http.put(
-          Uri.http(Settings.serverHost, '/categories/${updateCategoryDTO.id}'),
+          Uri.http(Settings.serverHost, '$_apiVersion/categories/${updateCategoryDTO.id}'),
           headers: {'Authorization': 'Bearer $jwt'},
           body: {'name': updateCategoryDTO.name});
       final jsonCategory = jsonDecode(response.body);
@@ -54,7 +56,7 @@ class CategoriesService {
   Future<bool> deleteCategory(String jwt, Category category) async {
     try {
       final response = await http.delete(
-          Uri.http(Settings.serverHost, '/categories/${category.id}'),
+          Uri.http(Settings.serverHost, '$_apiVersion/categories/${category.id}'),
           headers: {'Authorization': 'Bearer $jwt'});
       return response.statusCode == 200;
     } catch (e) {

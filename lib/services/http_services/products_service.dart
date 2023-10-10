@@ -8,10 +8,12 @@ import 'package:total_pos/models/product.dart';
 import 'package:total_pos/models/settings.dart';
 
 class ProductsService {
+  final _apiVersion = '/api/v1';
+  
   Future<List<Product>> getProducts(String jwt) async {
     try {
       final response = await http.get(
-          Uri.http(Settings.serverHost, '/products'),
+          Uri.http(Settings.serverHost, '$_apiVersion/products'),
           headers: {'Authorization': 'Bearer $jwt'});
       final jsonList = jsonDecode(response.body) as List<dynamic>;
       return jsonList.map((json) => Product.fromJson(json)).toList();
@@ -25,7 +27,7 @@ class ProductsService {
   Future<Product> getProductByID(String jwt, int productId) async {
     try {
       final response = await http.get(
-          Uri.http(Settings.serverHost, '/products/$productId'),
+          Uri.http(Settings.serverHost, '$_apiVersion/products/$productId'),
           headers: {'Authorization': 'Bearer $jwt'});
       final jsonProduct = jsonDecode(response.body);
       return Product.fromJson(jsonProduct);
@@ -40,7 +42,7 @@ class ProductsService {
       String jwt, CreateProductDTO createProductDTO) async {
     try {
       final response = await http.post(
-        Uri.http(Settings.serverHost, '/products'),
+        Uri.http(Settings.serverHost, '$_apiVersion/products'),
         headers: {'Authorization': 'Bearer $jwt'},
         body: createProductDTO.toJson(),
       );
@@ -57,7 +59,7 @@ class ProductsService {
       String jwt, UpdateProductDTO updateProductDTO) async {
     try {
       final response = await http.put(
-        Uri.http(Settings.serverHost, '/products/${updateProductDTO.id}'),
+        Uri.http(Settings.serverHost, '$_apiVersion/products/${updateProductDTO.id}'),
         headers: {'Authorization': 'Bearer $jwt'},
         body: updateProductDTO.toJson(),
       );
@@ -74,7 +76,7 @@ class ProductsService {
       String jwt, int categoryId) async {
     try {
       final response = await http.get(
-          Uri.http(Settings.serverHost, '/products/categories/$categoryId'),
+          Uri.http(Settings.serverHost, '$_apiVersion/products/categories/$categoryId'),
           headers: {'Authorization': 'Bearer $jwt'});
       final jsonList = jsonDecode(response.body) as List<dynamic>;
       return jsonList.map((json) => Product.fromJson(json)).toList();
@@ -90,7 +92,7 @@ class ProductsService {
     try {
       final response = await http.post(
         Uri.http(Settings.serverHost,
-            '/products/${product.id}/categories/${category.id}'),
+            '$_apiVersion/products/${product.id}/categories/${category.id}'),
         headers: {'Authorization': 'Bearer $jwt'},
       );
       return response.statusCode == 200;
@@ -106,7 +108,7 @@ class ProductsService {
     try {
       final response = await http.delete(
         Uri.http(Settings.serverHost,
-            '/products/${product.id}/categories/${category.id}'),
+            '$_apiVersion/products/${product.id}/categories/${category.id}'),
         headers: {'Authorization': 'Bearer $jwt'},
       );
       return response.statusCode == 200;
@@ -120,7 +122,7 @@ class ProductsService {
   Future<bool> deleteProducts(String jwt, Product product) async {
     try {
       final response = await http.delete(
-          Uri.http(Settings.serverHost, '/products/${product.id}'),
+          Uri.http(Settings.serverHost, '$_apiVersion/products/${product.id}'),
           headers: {'Authorization': 'Bearer $jwt'});
       return response.statusCode == 200;
     } catch (e) {
