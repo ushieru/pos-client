@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:total_pos/models/settings.dart';
 import 'package:total_pos/providers/settings_state_provider.dart';
-import 'package:total_pos/widgets/layouts/dashboard_layout.dart';
+import 'package:total_pos/widgets/layouts/dashboard_admin_layout.dart';
 import 'package:total_pos/utils/colors.dart' as c;
 import 'package:total_pos/widgets/panel.dart';
 
@@ -19,7 +19,7 @@ class _ConfigRouteState extends ConsumerState {
 
   @override
   Widget build(BuildContext context) {
-    return DashboardLayout(
+    return DashboardAdminLayout(
         child: ListView(children: [
       Panel(
           child: Text('Configuracion',

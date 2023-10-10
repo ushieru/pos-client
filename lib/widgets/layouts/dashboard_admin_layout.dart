@@ -5,14 +5,15 @@ import 'package:total_pos/providers/auth_state_provider.dart';
 import 'package:total_pos/routes/admin/categories_route.dart';
 import 'package:total_pos/routes/admin/config_route.dart';
 import 'package:total_pos/routes/admin/dashboard_route.dart';
+import 'package:total_pos/routes/admin/tickets_route.dart';
 import 'package:total_pos/routes/login_route.dart';
 import 'package:total_pos/routes/admin/products_route.dart';
 import 'package:total_pos/routes/admin/tables_route.dart';
 import 'package:total_pos/routes/admin/users_route.dart';
 import 'package:total_pos/models/settings.dart';
 
-class DashboardLayout extends ConsumerWidget {
-  const DashboardLayout({super.key, required this.child});
+class DashboardAdminLayout extends ConsumerWidget {
+  const DashboardAdminLayout({super.key, required this.child});
 
   final Widget child;
 
@@ -72,6 +73,14 @@ class DashboardLayout extends ConsumerWidget {
                     label: const Align(
                         alignment: Alignment.centerLeft,
                         child: Text("Productos")))),
+            SizedBox(
+                width: double.maxFinite,
+                child: TextButton.icon(
+                    onPressed: () => context.replace(TicketsRoute.routeName),
+                    icon: const Icon(Icons.receipt),
+                    label: const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text("Tickets")))),
             SizedBox(
                 width: double.maxFinite,
                 child: TextButton.icon(

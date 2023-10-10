@@ -5,7 +5,7 @@ import 'package:total_pos/models/settings.dart';
 import 'package:total_pos/models/table.dart';
 import 'package:total_pos/providers/tables_state_provider.dart';
 import 'package:total_pos/widgets/dialogs/create/create_table_dialog.dart';
-import 'package:total_pos/widgets/layouts/dashboard_layout.dart';
+import 'package:total_pos/widgets/layouts/dashboard_admin_layout.dart';
 import 'package:total_pos/widgets/panel.dart';
 
 class TablesRoute extends ConsumerStatefulWidget {
@@ -23,7 +23,7 @@ class _TablesRouteState extends ConsumerState {
   Widget build(BuildContext context) {
     final tables = ref.watch(tablesStateProvider);
     final tableMethods = ref.watch(tablesStateProvider.notifier);
-    return DashboardLayout(
+    return DashboardAdminLayout(
         child: Column(children: [
       Panel(
           child: Text('Mesas', style: Theme.of(context).textTheme.titleLarge)),

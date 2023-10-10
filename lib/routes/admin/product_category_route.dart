@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:total_pos/models/product.dart';
 import 'package:total_pos/providers/categories_state_provider.dart';
 import 'package:total_pos/providers/products_state_provider.dart';
-import 'package:total_pos/widgets/layouts/dashboard_layout.dart';
+import 'package:total_pos/widgets/layouts/dashboard_admin_layout.dart';
 import 'package:total_pos/widgets/panel.dart';
 
 class ProductCategoryRouteState extends StateNotifier<Product> {
@@ -52,7 +52,7 @@ class ProductCategoryRoute extends ConsumerWidget {
       }
       return true;
     });
-    return DashboardLayout(
+    return DashboardAdminLayout(
         child: ListView(children: [
       Panel(
           child: Text('Agregar categorias',

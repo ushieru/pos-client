@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:total_pos/widgets/panel.dart';
 import 'package:total_pos/widgets/tables/categories_table.dart';
 import 'package:total_pos/widgets/dialogs/create/create_category_dialog.dart';
-import 'package:total_pos/widgets/layouts/dashboard_layout.dart';
+import 'package:total_pos/widgets/layouts/dashboard_admin_layout.dart';
 
 class CategoriesdRoute extends ConsumerWidget {
   static const String routeName = '/admin/categories';
@@ -11,7 +11,7 @@ class CategoriesdRoute extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return DashboardLayout(
+    return DashboardAdminLayout(
         child: ListView(children: [
       Panel(
           child: Text('Categorias',
