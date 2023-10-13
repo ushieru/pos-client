@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:total_pos/models/account.dart';
 import 'package:total_pos/providers/auth_state_provider.dart';
 import 'package:total_pos/routes/admin/dashboard_route.dart';
+import 'package:total_pos/routes/waiter/tables_route.dart' as waiter;
 import 'package:total_pos/routes/cashier/cashier_dashboard_route.dart';
 import 'package:total_pos/models/settings.dart';
 import 'package:total_pos/widgets/dialogs/config_dialog.dart';
@@ -21,11 +22,14 @@ class LoginRoute extends ConsumerWidget {
     final login = ref.read(authStateProvider.notifier).login;
     ref.listen(authStateProvider, (_, state) {
       if (!state.isLoged) return;
-      if (state.user?.account.accountType == AccountType.admin) {
-        context.go(DashboardRoute.routeName);
-      }
-      if (state.user?.account.accountType == AccountType.cashier) {
-        context.go(CashierDashboardRoute.routeName);
+      switch (state.user?.account.accountType) {
+        case AccountType.admin:
+          return context.go(DashboardRoute.routeName);
+        case AccountType.cashier:
+          return context.go(CashierDashboardRoute.routeName);
+        case AccountType.waiter:
+          return context.go(waiter.TablesRoute.routeName);
+        default:
       }
     });
     return Scaffold(

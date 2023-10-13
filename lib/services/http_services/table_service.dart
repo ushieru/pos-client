@@ -7,9 +7,10 @@ import 'package:total_pos/models/table.dart';
 
 class TablesService {
   final _apiVersion = '/api/v1';
-  
+
   Future<List<Table>> getTables(String jwt) async {
-    final response = await http.get(Uri.http(Settings.serverHost, '$_apiVersion/tables'),
+    final response = await http.get(
+        Uri.http(Settings.serverHost, '$_apiVersion/tables'),
         headers: {'Authorization': 'Bearer $jwt'});
     final jsonList = jsonDecode(response.body) as List<dynamic>;
     return jsonList.map((json) => Table.fromJson(json)).toList();
@@ -26,6 +27,14 @@ class TablesService {
     );
     final json = jsonDecode(response.body);
     return Table.fromJson(json);
+  }
+
+  Future<Table> createTableTicket(String jwt, int tableId) async {
+    final response = await http.post(
+        Uri.http(Settings.serverHost, '$_apiVersion/tables/$tableId/ticket'),
+        headers: {'Authorization': 'Bearer $jwt'});
+    final jsonResponse = jsonDecode(response.body);
+    return Table.fromJson(jsonResponse);
   }
 
   Future<Table> updateTable(

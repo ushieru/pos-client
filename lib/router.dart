@@ -12,6 +12,8 @@ import 'package:total_pos/routes/cashier/cashier_dashboard_route.dart';
 import 'package:total_pos/routes/cashier/cashier_sales/cashier_sales_route.dart';
 import 'package:total_pos/routes/loading_route.dart';
 import 'package:total_pos/routes/login_route.dart';
+import 'package:total_pos/routes/waiter/ticket_route/ticket_route.dart';
+import 'package:total_pos/routes/waiter/tables_route.dart' as waiter_route;
 
 class Router {
   final _sharedRoutes = <GoRoute>[
@@ -72,11 +74,23 @@ class Router {
     ),
   ];
 
+  final _waiterRoutes = <GoRoute>[
+    GoRoute(
+      path: waiter_route.TablesRoute.routeName,
+      builder: (_, __) => const waiter_route.TablesRoute(),
+    ),
+    GoRoute(
+      path: TicketRoute.routeName,
+      builder: (_, __) => const TicketRoute(),
+    ),
+  ];
+
   GoRouter build() {
     var routes = <GoRoute>[];
     routes.addAll(_sharedRoutes);
     routes.addAll(_adminRoutes);
     routes.addAll(_cashierRoutes);
+    routes.addAll(_waiterRoutes);
     return GoRouter(routes: routes);
   }
 }
