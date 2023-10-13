@@ -84,7 +84,9 @@ class LoginRoute extends ConsumerWidget {
                           child: Text('Ingresar'),
                         ))
                   ]),
-            ))
+            )),
+            const Text('Made with ❤️ by Ushieru'),
+            const SizedBox(height: 10),
           ]))
     ]));
   }
