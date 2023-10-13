@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:total_pos/widgets/layouts/dashboard_admin_layout.dart';
 import 'package:total_pos/widgets/panel.dart';
+import 'package:total_pos/widgets/tables/tickets_table.dart';
 
 class TicketsRoute extends StatelessWidget {
   static const String routeName = '/admin/tickets';
@@ -13,6 +14,7 @@ class TicketsRoute extends StatelessWidget {
       Panel(
           child:
               Text('Tickets', style: Theme.of(context).textTheme.titleLarge)),
+      const Panel(child: TicketsTable())
     ]));
   }
 }

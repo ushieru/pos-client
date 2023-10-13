@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:total_pos/models/product.dart';
 import 'package:total_pos/models/ticket.dart';
@@ -12,14 +14,18 @@ final ticketStateProvider =
 class TicketStateProvider extends StateNotifier<List<Ticket>> {
   TicketStateProvider(this.authState) : super([]) {
     getTickets();
+    Timer.periodic(const Duration(seconds: 5), (timer) {
+      getTickets();
+    });
   }
 
   final AuthState authState;
   final _ticketService = TicketService();
   final _paymentService = PaymentService();
 
-  Future<void> getTickets() async {
-    state = await _ticketService.getTickets(authState.jwtToken);
+  Future<void> getTickets({bool mine = false, bool onlyOpen = false}) async {
+    state = await _ticketService.getTickets(authState.jwtToken,
+        mine: mine, onlyOpen: onlyOpen);
   }
 
   Future<Ticket> getTicketByID(int id) async =>

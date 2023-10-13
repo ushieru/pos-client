@@ -6,18 +6,15 @@ import 'package:total_pos/models/settings.dart';
 
 class TicketService {
   final _apiVersion = '/api/v1';
-  
-  Future<List<Ticket>> getTickets(String jwt) async {
-    try {
-      final response = await http.get(Uri.http(Settings.serverHost, '$_apiVersion/tickets'),
-          headers: {'Authorization': 'Bearer $jwt'});
-      final jsonList = jsonDecode(response.body) as List<dynamic>;
-      return jsonList.map((json) => Ticket.fromJson(json)).toList();
-    } catch (e) {
-      log('Error: Class TicketService => Method getTickets');
-      log(e.toString());
-      return [];
-    }
+
+  Future<List<Ticket>> getTickets(String jwt,
+      {bool mine = false, bool onlyOpen = false}) async {
+    final response = await http.get(
+        Uri.http(Settings.serverHost, '$_apiVersion/tickets',
+            {'mine': mine.toString(), 'onlyOpen': onlyOpen.toString()}),
+        headers: {'Authorization': 'Bearer $jwt'});
+    final jsonList = jsonDecode(response.body) as List<dynamic>;
+    return jsonList.map((json) => Ticket.fromJson(json)).toList();
   }
 
   Future<Ticket> getTicketByID(String jwt, int ticketId) async {
@@ -65,8 +62,8 @@ class TicketService {
       String jwt, int ticketId, int productId) async {
     try {
       final response = await http.post(
-          Uri.http(
-              Settings.serverHost, '$_apiVersion/tickets/$ticketId/products/$productId'),
+          Uri.http(Settings.serverHost,
+              '$_apiVersion/tickets/$ticketId/products/$productId'),
           headers: {'Authorization': 'Bearer $jwt'});
       final jsonList = jsonDecode(response.body);
       return Ticket.fromJson(jsonList);
@@ -81,8 +78,8 @@ class TicketService {
       String jwt, int ticketId, int productId) async {
     try {
       final response = await http.delete(
-          Uri.http(
-              Settings.serverHost, '$_apiVersion/tickets/$ticketId/products/$productId'),
+          Uri.http(Settings.serverHost,
+              '$_apiVersion/tickets/$ticketId/products/$productId'),
           headers: {'Authorization': 'Bearer $jwt'});
       final jsonList = jsonDecode(response.body);
       return Ticket.fromJson(jsonList);
