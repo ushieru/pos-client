@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart' hide Table;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:total_pos/providers/auth_state_provider.dart';
 import 'package:total_pos/providers/tables_state_provider.dart';
+import 'package:total_pos/routes/login_route.dart';
 import 'package:total_pos/utils/table_utils.dart';
 import 'package:total_pos/widgets/panel.dart';
 import 'package:total_pos/widgets/table.dart';
@@ -11,12 +14,25 @@ class TablesRoute extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final logout = ref.read(authStateProvider.notifier).logout;
     var tables = tablesDesktoTablesMobile(ref.watch(tablesStateProvider));
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: SafeArea(
             child: Column(children: [
-          const Panel(child: Row(children: [Text('Mesas')])),
+          Panel(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                const Text('Mesas'),
+                ElevatedButton.icon(
+                    onPressed: () {
+                      logout();
+                      context.pushReplacement(LoginRoute.routeName);
+                    },
+                    icon: const Icon(Icons.exit_to_app),
+                    label: const Text('Cerrar Sesion')),
+              ])),
           ExpandedPanel(
               child: tables.isEmpty
                   ? const LinearProgressIndicator()
