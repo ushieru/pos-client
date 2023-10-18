@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:total_pos/models/settings.dart';
 import 'package:total_pos/services/http_services/utils_service.dart';
 
 class _ConnectClientDialog extends StatefulWidget {
