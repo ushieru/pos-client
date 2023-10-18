@@ -33,65 +33,57 @@ class LoginRoute extends ConsumerWidget {
       }
     });
     return Scaffold(
-        body: Row(children: [
+        body: Column(children: [
+      Padding(
+        padding: const EdgeInsets.only(right: 10, top: 5),
+        child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+          IconButton(
+              onPressed: () => showConnectClientDialog(context),
+              icon: const Icon(Icons.cell_tower)),
+          IconButton(
+              onPressed: () => showConfigDialog(context),
+              icon: const Icon(Icons.settings)),
+        ]),
+      ),
       Expanded(
-          flex: 2,
-          child: Container(
-            color: Settings.primaryColor,
-          )),
-      Expanded(
-          flex: 3,
-          child: Column(children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 10, top: 5),
-              child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                IconButton(
-                    onPressed: () => showConnectClientDialog(context),
-                    icon: const Icon(Icons.cell_tower)),
-                IconButton(
-                    onPressed: () => showConfigDialog(context),
-                    icon: const Icon(Icons.settings)),
-              ]),
-            ),
-            Expanded(
-                child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 150),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Total POS',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineLarge!
-                            .copyWith(color: Settings.primaryColor)),
-                    const SizedBox(height: 10),
-                    TextFormField(
-                      controller: userController,
-                      decoration:
-                          const InputDecoration(prefixIcon: Icon(Icons.person)),
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      controller: passwordController,
-                      onFieldSubmitted: (_) =>
-                          login(userController.text, passwordController.text),
-                      obscureText: true,
-                      decoration:
-                          const InputDecoration(prefixIcon: Icon(Icons.lock)),
-                    ),
-                    const SizedBox(height: 30),
-                    FilledButton(
-                        onPressed: () =>
-                            login(userController.text, passwordController.text),
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 30),
-                          child: Text('Ingresar'),
-                        ))
-                  ]),
-            )),
-            const Text('Made with ❤️ by Ushieru'),
-            const SizedBox(height: 10),
-          ]))
+          child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 500),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Total POS',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineLarge!
+                                .copyWith(color: Settings.primaryColor)),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          controller: userController,
+                          decoration: const InputDecoration(
+                              prefixIcon: Icon(Icons.person)),
+                        ),
+                        const SizedBox(height: 20),
+                        TextFormField(
+                          controller: passwordController,
+                          onFieldSubmitted: (_) => login(
+                              userController.text, passwordController.text),
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                              prefixIcon: Icon(Icons.lock)),
+                        ),
+                        const SizedBox(height: 30),
+                        FilledButton(
+                            onPressed: () => login(
+                                userController.text, passwordController.text),
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 30),
+                              child: Text('Ingresar'),
+                            ))
+                      ])))),
+      const Text('Made with ❤️ by Ushieru'),
+      const SizedBox(height: 10),
     ]));
   }
 }
