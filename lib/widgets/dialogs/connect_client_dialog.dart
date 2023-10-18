@@ -29,15 +29,14 @@ class _ConnectClientDialogState extends State<_ConnectClientDialog> {
               SizedBox(
                   width: 200,
                   child: QrImageView(
-                    data: '@connect:$serverUrl:8080',
-                    dataModuleStyle: QrDataModuleStyle(
-                        color: Settings.primaryColor.shade800,
+                    data: 'http://$serverUrl:8080',
+                    dataModuleStyle: const QrDataModuleStyle(
+                        color: Colors.white,
                         dataModuleShape: QrDataModuleShape.square),
-                    eyeStyle: QrEyeStyle(
-                        color: Settings.primaryColor.shade800,
-                        eyeShape: QrEyeShape.square),
+                    eyeStyle: const QrEyeStyle(
+                        color: Colors.white, eyeShape: QrEyeShape.square),
                   )),
-            Text('$serverUrl:8080'),
+            Align(alignment: Alignment.center, child: Text('$serverUrl:8080')),
           ]);
 }
 
