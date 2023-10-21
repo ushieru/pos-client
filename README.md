@@ -1,3 +1,1 @@
-# Total POS
-
-> ⚠️ In development...
+# pos-ui
