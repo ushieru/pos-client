@@ -1,7 +1,18 @@
+import { useEffect } from "react"
 import { Button, Divider } from "@nextui-org/react"
-import { Outlet, Link } from "react-router-dom"
+import { Outlet, Link, useNavigate } from "react-router-dom"
+import { useSessionStore } from "@/stores/useSessionStore"
 
 export const AdminLayout = () => {
+    const navigate = useNavigate();
+    const session = useSessionStore(s => s.session)
+    const closeSession = useSessionStore(s => s.closeSession)
+
+    useEffect(() => {
+        if (!session?.token)
+            return navigate("/");
+    }, [session])
+
     return <div className="flex">
         <aside className="h-screen w-[200px] border-r flex flex-col gap-1">
             <div className="h-[150px]" />
@@ -24,7 +35,7 @@ export const AdminLayout = () => {
                 Tickets
             </Button>
             <Divider />
-            <Button as={Link} to="/" replace={true} radius="none" variant="light">
+            <Button radius="none" variant="light" onClick={closeSession}>
                 Cerrar Sesion
             </Button>
         </aside>

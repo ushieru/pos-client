@@ -15,9 +15,8 @@ export const LoginRoute = () => {
     const sessionStore = useSessionStore(state => state)
 
     useEffect(() => {
-        if (sessionStore.session) {
+        if (sessionStore.session)
             return navigate("/admin/dashboard");
-        }
     }, [])
 
     const onSubmit = (event) => {

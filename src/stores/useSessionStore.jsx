@@ -16,5 +16,9 @@ export const useSessionStore = create((set) => ({
             })
             .then(_ => true)
             .catch(_ => false)
+    },
+    closeSession: () => {
+        localStorage.removeItem("pos-x-token")
+        set({ session: undefined })
     }
 }))
