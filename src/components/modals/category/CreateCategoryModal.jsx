@@ -1,4 +1,3 @@
-import React from "react";
 import {
     Modal,
     ModalContent,
@@ -8,15 +7,20 @@ import {
     Button,
     Input,
 } from "@nextui-org/react";
+import { toast } from 'react-toastify';
 import { useCategory } from '@/hooks/useCategory'
 
 export const CreateCategoryModal = ({ isOpen, onOpenChange }) => {
     const { createCategory } = useCategory()
 
-    const onSubmit = (event) => {
+    const onSubmit = (onClose) => (event) => {
         event.preventDefault()
         const name = event.target.name.value
-        createCategory(name)
+        createCategory(name).then(response => {
+            if (response.code) return toast.error(response.message)
+            toast.success("Categoria creada")
+            onClose()
+        })
     }
 
     return <Modal
@@ -27,7 +31,7 @@ export const CreateCategoryModal = ({ isOpen, onOpenChange }) => {
     >
         <ModalContent>
             {(onClose) => (
-                <form onSubmit={onSubmit}>
+                <form onSubmit={onSubmit(onClose)}>
                     <ModalHeader className="flex flex-col gap-1">Nueva Categoria</ModalHeader>
                     <ModalBody>
                         <Input
@@ -40,7 +44,7 @@ export const CreateCategoryModal = ({ isOpen, onOpenChange }) => {
                         <Button type="button" variant="flat" onPress={onClose}>
                             Cancelar
                         </Button>
-                        <Button type="submit" color="primary" onPress={onClose}>
+                        <Button type="submit" color="primary">
                             Crear
                         </Button>
                     </ModalFooter>
