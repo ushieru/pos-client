@@ -35,7 +35,7 @@ export const AdminLayout = () => {
                 Tickets
             </Button>
             <Divider />
-            <Button radius="none" variant="light" onClick={closeSession}>
+            <Button radius="none" variant="light" onPress={closeSession}>
                 Cerrar Sesion
             </Button>
         </aside>
