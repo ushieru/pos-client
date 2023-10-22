@@ -1,4 +1,3 @@
-import useSWR from "swr"
 import {
     Button,
     Card,
@@ -10,7 +9,6 @@ import { CategoriesTable } from "@/components/tables/CategoriesTable"
 import { CreateCategoryModal } from "@/components/modals/category/CreateCategoryModal"
 
 export const AdminCategoriesRoute = () => {
-    const { data, error, isLoading } = useSWR('/categories')
     const { isOpen, onOpenChange, onOpen } = useDisclosure()
 
     return <div>
@@ -19,7 +17,7 @@ export const AdminCategoriesRoute = () => {
         </Card>
         <Card className="mb-5">
             <CardBody>
-                <Button onClick={onOpen} >Nueva Categoria</Button>
+                <Button onClick={onOpen}>Nueva Categoria</Button>
             </CardBody>
         </Card>
         <CategoriesTable />
