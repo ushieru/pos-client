@@ -21,9 +21,8 @@ export const useCategory = () => {
                 },
                 body: JSON.stringify(dto)
             }
-            const response = await fetch(url, init)
-            const json = response.json()
-            return [json, response.status]
+            return fetch(url, init)
+                .then(r => r.json())
         },
         /**
          * Delete a category
@@ -37,9 +36,8 @@ export const useCategory = () => {
                     'Authorization': `Bearer ${session.token}`
                 }
             }
-            const response = await fetch(`${url}/${id}`, init)
-            const json = response.json()
-            return [json, response.status]
+            return fetch(`${url}/${id}`, init)
+                .then(r => r.json())
         },
     }
 }
