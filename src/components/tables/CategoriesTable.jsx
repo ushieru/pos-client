@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import useSWR from "swr"
 import {
     Table,
@@ -14,12 +14,12 @@ import { YesNoModal } from "@/components/modals/YesNoModal"
 import { useCategory } from '@/hooks/useCategory'
 
 export const CategoriesTable = () => {
-    const { data, error, isLoading } = useSWR('/categories')
+    const { data, error, isLoading, mutate } = useSWR('/categories')
     const { deleteCategory } = useCategory()
     const { isOpen, onOpenChange, onOpen } = useDisclosure()
     const [selectedCategory, setSelectedCategory] = useState()
 
-    const cellBuilder = (category, columnKey) => {
+    const cellBuilder = useCallback((category, columnKey) => {
         switch (columnKey) {
             case 'id': return category.id
             case 'name': return category.name
@@ -31,7 +31,7 @@ export const CategoriesTable = () => {
                 </Button>
             </>
         }
-    }
+    }, [])
 
     return <>
         <Table aria-label="No hay categorias">
@@ -47,7 +47,7 @@ export const CategoriesTable = () => {
         <YesNoModal
             title="Eliminar Categoria"
             body={`Seguro que desea eliminar la categoria "${selectedCategory?.name}"?`}
-            onAccept={() => deleteCategory(selectedCategory?.id)}
+            onAccept={() => deleteCategory(selectedCategory?.id).then(_ => mutate())}
             onOpenChange={onOpenChange}
             isOpen={isOpen}
         />
