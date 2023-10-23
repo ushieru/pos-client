@@ -7,6 +7,9 @@ import {
     TableBody,
     TableRow,
     TableCell,
+    Card,
+    CardBody,
+    Input,
     Button,
     useDisclosure
 } from "@nextui-org/react"
@@ -19,6 +22,7 @@ export const CategoriesTable = () => {
     const { deleteCategory } = useCategory()
     const { isOpen, onOpenChange, onOpen } = useDisclosure()
     const [selectedCategory, setSelectedCategory] = useState()
+    const [searchText, setSearchText] = useState("")
 
     const cellBuilder = useCallback((category, columnKey) => {
         switch (columnKey) {
@@ -28,7 +32,7 @@ export const CategoriesTable = () => {
                 <Button
                     color="danger"
                     isIconOnly
-                    onClick={() => { setSelectedCategory(category); onOpen() }}>
+                    onPress={() => { setSelectedCategory(category); onOpen() }}>
                     <MdDelete className="text-xl" />
                 </Button>
             </>
@@ -36,11 +40,20 @@ export const CategoriesTable = () => {
     }, [])
 
     return <>
+        <Card className="mb-5">
+            <CardBody>
+                <Input
+                    placeholder="Buscar"
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                />
+            </CardBody>
+        </Card>
         <Table aria-label="No hay categorias">
             <TableHeader columns={columns}>
                 {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
             </TableHeader>
-            <TableBody items={data || []}>
+            <TableBody items={data?.filter(p => p.name.toLowerCase().startsWith(searchText)) || []}>
                 {(category) => <TableRow key={category.id}>
                     {(columnKey) => <TableCell>{cellBuilder(category, columnKey)}</TableCell>}
                 </TableRow>}
