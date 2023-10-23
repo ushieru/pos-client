@@ -10,11 +10,12 @@ import {
     Button,
     useDisclosure
 } from "@nextui-org/react"
+import { MdDelete } from 'react-icons/md'
 import { YesNoModal } from "@/components/modals/YesNoModal"
 import { useCategory } from '@/hooks/useCategory'
 
 export const CategoriesTable = () => {
-    const { data, error, isLoading, mutate } = useSWR('/categories')
+    const { data, mutate } = useSWR('/categories')
     const { deleteCategory } = useCategory()
     const { isOpen, onOpenChange, onOpen } = useDisclosure()
     const [selectedCategory, setSelectedCategory] = useState()
@@ -26,8 +27,9 @@ export const CategoriesTable = () => {
             case 'actions': return <>
                 <Button
                     color="danger"
+                    isIconOnly
                     onClick={() => { setSelectedCategory(category); onOpen() }}>
-                    Eliminar
+                    <MdDelete className="text-xl" />
                 </Button>
             </>
         }

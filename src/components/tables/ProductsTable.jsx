@@ -13,6 +13,7 @@ import {
     Button,
     useDisclosure,
 } from "@nextui-org/react"
+import { MdDelete, MdAddLink } from 'react-icons/md'
 import { useProduct } from "@/hooks/useProduct"
 import { YesNoModal } from "@/components/modals/YesNoModal"
 
@@ -28,14 +29,22 @@ export const ProductsTable = () => {
             case 'id': return product.id
             case 'name': return product.name
             case 'description': return product.description
-            case 'price': return product.price
-            case 'actions': return <>
+            case 'price': return `$${product.price}`
+            case 'actions': return <div className="flex gap-1">
                 <Button
                     color="danger"
-                    onClick={() => { setSelectedProduct(product); onOpen() }}>
-                    Eliminar
+                    isIconOnly
+                    onClick={() => { setSelectedProduct(product); onOpen() }}
+                >
+                    <MdDelete className="text-xl" />
                 </Button>
-            </>
+                <Button
+                    isIconOnly
+                    onClick={() => { }}
+                >
+                    <MdAddLink className="text-xl" />
+                </Button>
+            </div>
         }
     }, [])
 
@@ -53,7 +62,7 @@ export const ProductsTable = () => {
             <TableHeader columns={columns}>
                 {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
             </TableHeader>
-            <TableBody items={data.filter(p => p.name.startsWith(searchText)) || []}>
+            <TableBody items={data?.filter(p => p.name.startsWith(searchText)) || []}>
                 {(product) => <TableRow key={product.id}>
                     {(columnKey) => <TableCell>{cellBuilder(product, columnKey)}</TableCell>}
                 </TableRow>}
