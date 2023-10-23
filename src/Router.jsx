@@ -7,7 +7,8 @@ import {
     AdminCategoriesRoute,
     AdminProductsRoute,
     AdminTablesRoute,
-    AdminTicketsRoute
+    AdminTicketsRoute,
+    AdminProductsCategoriesRoute,
 } from "./routes/admin";
 
 export const router = createBrowserRouter([
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
             {
                 path: "/admin/products",
                 element: <AdminProductsRoute />,
+            },
+            {
+                path: "/admin/products/:idProduct/categories",
+                element: <AdminProductsCategoriesRoute />
             },
             {
                 path: "/admin/tables",

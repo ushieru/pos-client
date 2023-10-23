@@ -13,6 +13,7 @@ import {
     Button,
     useDisclosure,
 } from "@nextui-org/react"
+import { Link } from "react-router-dom"
 import { MdDelete, MdAddLink } from 'react-icons/md'
 import { useProduct } from "@/hooks/useProduct"
 import { YesNoModal } from "@/components/modals/YesNoModal"
@@ -40,7 +41,8 @@ export const ProductsTable = () => {
                 </Button>
                 <Button
                     isIconOnly
-                    onClick={() => { }}
+                    as={Link}
+                    to={`/admin/products/${product.id}/categories`}
                 >
                     <MdAddLink className="text-xl" />
                 </Button>
