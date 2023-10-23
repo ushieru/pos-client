@@ -64,7 +64,7 @@ export const ProductsTable = () => {
             <TableHeader columns={columns}>
                 {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
             </TableHeader>
-            <TableBody items={data?.filter(p => p.name.startsWith(searchText)) || []}>
+            <TableBody items={data?.filter(p => p.name.toLowerCase().startsWith(searchText)) || []}>
                 {(product) => <TableRow key={product.id}>
                     {(columnKey) => <TableCell>{cellBuilder(product, columnKey)}</TableCell>}
                 </TableRow>}
