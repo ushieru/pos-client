@@ -15,7 +15,12 @@ export const AdminLayout = () => {
 
     return <div className="flex">
         <aside className="h-screen w-[200px] border-r flex flex-col gap-1">
-            <div className="h-[150px]" />
+            <div className="h-[150px] grid place-items-center">
+                <img
+                    src="/icon.svg"
+                    className="w-[100px]"
+                />
+            </div>
             <Button as={Link} to="/admin/dashboard" radius="none" variant="light">
                 Dashboard
             </Button>
