@@ -27,7 +27,7 @@ export const CategoriesTable = () => {
                 <Button
                     color="danger"
                     onClick={() => { setSelectedCategory(category); onOpen() }}>
-                    Delete
+                    Eliminar
                 </Button>
             </>
         }
