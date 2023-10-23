@@ -39,7 +39,7 @@ export const AdminLayout = () => {
                 Cerrar Sesion
             </Button>
         </aside>
-        <div className="overflow-auto m-10 flex-grow">
+        <div className="h-screen overflow-auto p-10 flex-grow">
             <Outlet />
         </div>
     </div>
