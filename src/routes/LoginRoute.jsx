@@ -15,17 +15,18 @@ export const LoginRoute = () => {
     const sessionStore = useSessionStore(state => state)
 
     useEffect(() => {
-        if (sessionStore.session)
-            return navigate("/admin/dashboard");
-    }, [])
+        switch (sessionStore.session?.user.account.account_type) {
+            case "admin": return navigate("/admin/dashboard")
+            case "cashier": return navigate("/cashier/dashboard")
+            case "waiter": return navigate("/waiter/dashboard")
+        }
+    }, [sessionStore.session])
 
     const onSubmit = (event) => {
         event.preventDefault()
         const user = event.target.user.value
         const password = event.target.password.value
-        sessionStore.initSession(user, password).then(result => {
-            if (result) navigate("/admin/dashboard", { replace: true })
-        })
+        sessionStore.initSession(user, password)
     }
 
     return <div className="h-screen w-screen grid place-items-center">
