@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { toast } from 'react-toastify';
 
 export const useSessionStore = create((set) => ({
     session: JSON.parse(localStorage.getItem("pos-x-token")),
@@ -11,6 +12,10 @@ export const useSessionStore = create((set) => ({
         })
             .then(r => r.json())
             .then(session => {
+                if (session.code) {
+                    toast.error("Error en usuario o contraseña")
+                    return
+                }
                 localStorage.setItem("pos-x-token", JSON.stringify(session))
                 set({ session })
             })
