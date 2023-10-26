@@ -1,0 +1,1 @@
+export { WaiterDashboardRoute } from './WaiterDashboardRoute'
