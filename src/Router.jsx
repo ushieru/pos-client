@@ -1,5 +1,6 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router-dom";
 import { LoginRoute } from "./routes/LoginRoute";
+import { TicketRoute } from "./routes/TicketRoute";
 import { AdminLayout } from "./components/layouts/AdminLayout";
 import {
     AdminDashboardRoute,
@@ -10,6 +11,11 @@ import {
     AdminTicketsRoute,
     AdminProductsCategoriesRoute,
 } from "./routes/admin";
+import {
+    WaiterDashboardRoute
+} from "./routes/waiter"
+import { CashierDashboardRoute } from "./routes/cashier/CashierDashboardRoute";
+import { PrivateRoute } from "./components/PrivateRoute";
 
 export const router = createBrowserRouter([
     {
@@ -17,8 +23,12 @@ export const router = createBrowserRouter([
         element: <LoginRoute />,
     },
     {
+        path: "/ticket/:ticketId",
+        element: <TicketRoute />
+    },
+    {
         path: "/admin",
-        element: <AdminLayout />,
+        element: <PrivateRoute accountType="admin"><AdminLayout /></PrivateRoute>,
         children: [
             {
                 path: "/admin/dashboard",
@@ -49,6 +59,26 @@ export const router = createBrowserRouter([
                 path: "/admin/tickets",
                 element: <AdminTicketsRoute />,
             },
+        ]
+    },
+    {
+        path: "/cashier",
+        element: <PrivateRoute accountType="cashier"><><Outlet /></></PrivateRoute>,
+        children: [
+            {
+                path: "/cashier/dashboard",
+                element: <CashierDashboardRoute />
+            },
+        ]
+    },
+    {
+        path: "/waiter",
+        element: <PrivateRoute accountType="waiter"><><Outlet /></></PrivateRoute>,
+        children: [
+            {
+                path: "/waiter/dashboard",
+                element: <WaiterDashboardRoute />,
+            }
         ]
     },
 ]);
