@@ -52,6 +52,15 @@ export const useTicket = () => {
         { method: "PUT", headers: { 'Authorization': `Bearer ${session.token}` } })
         .then(r => r.json())
     },
-
+    /**
+     * Delete a ticket
+     * @param {string} ticketId Ticket identificator 
+     * @returns {Promise<Object>}
+     */
+    deleteTicket: async (ticketId) => {
+      return fetch(`${url}/${ticketId}`,
+        { method: "DELETE", headers: { 'Authorization': `Bearer ${session.token}` } })
+        .then(r => r.json())
+    },
   }
 }
