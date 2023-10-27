@@ -4,15 +4,15 @@ import {
   Card,
   CardBody,
   CardHeader,
-  CardFooter,
   Divider,
   Button,
 } from "@nextui-org/react";
-import { MdAdd, MdRemove, MdDelete } from 'react-icons/md'
-import { useParams, useNavigate, Navigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useSessionStore } from "@/stores/useSessionStore";
 import { useTicket } from "@/hooks/useTicket";
 import { toast } from "react-toastify";
+import { TicketProductsButtons } from "@/components/TicketProductButtons";
+import { TicketTicketProducts } from "@/components/TicketTicketProducts";
 
 export const TicketRoute = () => {
   const { ticketId } = useParams()
@@ -22,12 +22,10 @@ export const TicketRoute = () => {
   const [currentCategory, setCurrentCategory] = useState(null)
   const { data: products } = useSWR(currentCategory && `/products/categories/${currentCategory.id}`)
   const {
-    addProduct,
-    deleteProduct,
     payTicket,
+    deleteTicket
   } = useTicket()
   const navigate = useNavigate()
-
 
   useEffect(() => {
     if (categories?.length) {
@@ -35,15 +33,18 @@ export const TicketRoute = () => {
     }
   }, [categories])
 
-  if (ticket?.code) {
-    toast.error(`Ticket #${ticketId} no encontrado`)
-    return <Navigate to="/waiter/dashboard" />
-  }
+  useEffect(() => {
+    if (!ticket) return
 
-  if (ticket?.ticket_status != "open") {
-    toast.error(`Ticket #${ticketId} no se encuentra abierto`)
-    return <Navigate to="/waiter/dashboard" />
-  }
+    if (ticket?.code) {
+      toast.error(`Ticket #${ticketId} no encontrado`)
+      return navigate("/waiter/dashboard")
+    }
+    if (ticket?.ticket_status != "open") {
+      toast.error(`Ticket #${ticketId} no se encuentra abierto`)
+      return navigate("/waiter/dashboard")
+    }
+  }, [ticket])
 
   return <div className="h-screen w-screen flex p-5 gap-5">
     <div className="grow flex flex-col gap-5">
@@ -62,18 +63,7 @@ export const TicketRoute = () => {
       </Card>
       <Card fullWidth className="grow">
         <CardBody className="grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 auto-rows-max gap-3" >
-          {
-            products?.map(p => <Card
-              key={p.id}
-              isHoverable
-              isPressable
-              onPress={() => addProduct(ticket.id, p.id).then(_ => refreshTicket())}
-            >
-              <CardHeader className="capitalize">{p.name}</CardHeader>
-              <CardBody className="max-h-16 text-ellipsis overflow-hidden">Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.{p.description}</CardBody>
-              <CardFooter className="justify-end">${p.price}</CardFooter>
-            </Card>)
-          }
+          <TicketProductsButtons ticket={ticket} products={products} onAction={refreshTicket} />
         </CardBody>
       </Card>
     </div>
@@ -81,44 +71,25 @@ export const TicketRoute = () => {
       <CardHeader className="text-2xl font-bold">Ticket #{ticket?.id}</CardHeader>
       <CardBody>
         <section id="ticket-products" className="grow space-y-2 overflow-auto">
-          {
-            ticket?.ticket_products?.map(p => <Card key={p.id} className="overflow-hidden">
-              <CardHeader className="justify-between">
-                <p>{p.name}</p>
-                ${p.price} c/u
-              </CardHeader>
-              <CardBody className="flex flex-row justify-between items-center overflow-hidden">
-                <div className="flex gap-2 items-center">
-                  <Button
-                    isIconOnly
-                    onPress={() => addProduct(ticket.id, p.product_id).then(_ => refreshTicket())}
-                  >
-                    <MdAdd className="text-xl" />
-                  </Button>
-                  <p className="text-xl px-2">{p.quantity}</p>
-                  <Button
-                    color="danger"
-                    isIconOnly
-                    onPress={() => deleteProduct(ticket.id, p.product_id).then(_ => refreshTicket())}
-                  >
-                    {
-                      p.quantity == 1
-                        ? <MdDelete className="text-xl" />
-                        : <MdRemove className="text-xl" />
-                    }
-                  </Button>
-                </div>
-                ${p.quantity * p.price}
-              </CardBody>
-            </Card>)
-          }
+          <TicketTicketProducts ticket={ticket} onAction={refreshTicket} />
         </section>
         <Divider className="my-3" />
         <section className="grid grid-cols-2 grid-rows-2 gap-2">
-          <Button>Cancelar</Button>
-          <Button color="primary" onPress={() => navigate("/waiter/dashboard")}>Aceptar</Button>
+          <Button
+            isDisabled={ticket?.ticket_products?.length != 0}
+            onPress={() => deleteTicket(ticket?.id).then(_ => navigate("/waiter/dashboard"))}
+          >
+            Cancelar
+          </Button>
+          <Button
+            color="primary"
+            onPress={() => navigate("/waiter/dashboard")}
+          >
+            Aceptar
+          </Button>
           {session.user.account.account_type == "cashier" && <div></div>}
           {session.user.account.account_type == "cashier" && <Button
+            isDisabled={ticket?.ticket_products?.length == 0}
             color="secondary"
             onPress={() => payTicket(ticket?.id)
               .then(r => {
