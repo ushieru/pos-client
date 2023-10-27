@@ -9,12 +9,17 @@ import { MdExitToApp, MdAttachMoney } from 'react-icons/md'
 import { useNavigate } from "react-router-dom";
 import { useSessionStore } from "@/stores/useSessionStore";
 import { useTicket } from "@/hooks/useTicket";
+import { FilterBuilder } from "@/utils/filterBuilder";
 
 export const CashierDashboardRoute = () => {
   const navigate = useNavigate();
   const closeSession = useSessionStore(s => s.closeSession)
   const session = useSessionStore(s => s.session)
-  const { data: openTickets } = useSWR(`/tickets?filters[0][field]=account_id&filters[0][operator]=%3D&filters[0][value]=${session.user.account.id}&filters[1][field]=ticket_status&filters[1][operator]=%3D&filters[1][value]=%22open%22`)
+  const filters = new FilterBuilder()
+    .addFilter('account_id', '=', session.user.account.id)
+    .addFilter('ticket_status', '=', '"open"')
+    .build()
+  const { data: openTickets } = useSWR(`/tickets?${filters}`)
   const { createTicket } = useTicket()
 
   return <div className="h-screen w-screen p-5">
