@@ -77,7 +77,10 @@ export const TicketRoute = () => {
         <section className="grid grid-cols-2 grid-rows-2 gap-2">
           <Button
             isDisabled={ticket?.ticket_products?.length != 0}
-            onPress={() => deleteTicket(ticket?.id).then(_ => navigate("/waiter/dashboard"))}
+            onPress={() => deleteTicket(ticket?.id).then(r => {
+              if (r.code) return
+              navigate("/waiter/dashboard")
+            })}
           >
             Cancelar
           </Button>
