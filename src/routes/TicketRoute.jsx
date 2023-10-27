@@ -9,10 +9,10 @@ import {
   Button,
 } from "@nextui-org/react";
 import { MdAdd, MdRemove, MdDelete } from 'react-icons/md'
-import { useParams, useNavigate } from "react-router-dom";
-import { justOnce } from "@/utils/justOnce";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { useSessionStore } from "@/stores/useSessionStore";
 import { useTicket } from "@/hooks/useTicket";
+import { toast } from "react-toastify";
 
 export const TicketRoute = () => {
   const { ticketId } = useParams()
@@ -31,9 +31,19 @@ export const TicketRoute = () => {
 
   useEffect(() => {
     if (categories?.length) {
-      justOnce(() => setCurrentCategory(categories[0]))
+      setCurrentCategory(categories[0])
     }
   }, [categories])
+
+  if (ticket?.code) {
+    toast.error(`Ticket #${ticketId} no encontrado`)
+    return <Navigate to="/waiter/dashboard" />
+  }
+
+  if (ticket?.ticket_status != "open") {
+    toast.error(`Ticket #${ticketId} no se encuentra abierto`)
+    return <Navigate to="/waiter/dashboard" />
+  }
 
   return <div className="h-screen w-screen flex p-5 gap-5">
     <div className="grow flex flex-col gap-5">
