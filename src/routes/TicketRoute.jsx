@@ -35,7 +35,6 @@ export const TicketRoute = () => {
 
   useEffect(() => {
     if (!ticket) return
-
     if (ticket?.code) {
       toast.error(`Ticket #${ticketId} no encontrado`)
       return navigate("/waiter/dashboard")
@@ -48,11 +47,12 @@ export const TicketRoute = () => {
 
   return <div className="h-screen w-screen flex p-5 gap-5">
     <div className="grow flex flex-col gap-5">
-      <Card fullWidth>
-        <CardBody className="flex flex-row gap-2">
+      <Card className="">
+        <CardBody className="flex-row gap-2 overflow-x-auto w-[calc(100vw-40px)] md:w-[calc(100vw-460px)]">
           {
             categories?.map(c => <Button
               key={c.id}
+              className="shrink-0"
               color={currentCategory?.id == c.id ? 'primary' : 'default'}
               onPress={() => setCurrentCategory(c)}
             >
@@ -74,7 +74,7 @@ export const TicketRoute = () => {
           <TicketTicketProducts ticket={ticket} onAction={refreshTicket} />
         </section>
         <Divider className="my-3" />
-        <section className="grid grid-cols-2 grid-rows-2 gap-2">
+        <section className="grid grid-cols-2 gap-2">
           <Button
             isDisabled={ticket?.ticket_products?.length != 0}
             onPress={() => deleteTicket(ticket?.id).then(r => {
