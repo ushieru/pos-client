@@ -23,7 +23,7 @@ export const router = createBrowserRouter([
         element: <LoginRoute />,
     },
     {
-        path: "/ticket/:ticketId",
+        path: "/tickets/:ticketId",
         element: <TicketRoute />
     },
     {

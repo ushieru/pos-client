@@ -34,7 +34,7 @@ export const CashierDashboardRoute = () => {
     </Card>
     <Card className="mb-5">
       <CardHeader>
-        <Button onPress={() => createTicket().then(t => navigate('/ticket/' + t.id))}>
+        <Button onPress={() => createTicket().then(t => navigate('/tickets/' + t.id))}>
           Venta Rapida
           <MdAttachMoney className="text-lg" />
         </Button>
@@ -46,7 +46,7 @@ export const CashierDashboardRoute = () => {
         {
           openTickets?.map(t => <Card
             key={t.id}
-            onPress={() => navigate('/ticket/' + t.id)}
+            onPress={() => navigate('/tickets/' + t.id)}
             isHoverable
             isPressable
           >
