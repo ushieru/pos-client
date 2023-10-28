@@ -26,6 +26,7 @@ export const TicketRoute = () => {
     deleteTicket
   } = useTicket()
   const navigate = useNavigate()
+  const [showTicket, setShowTicket] = useState(false)
 
   useEffect(() => {
     if (categories?.length) {
@@ -66,8 +67,13 @@ export const TicketRoute = () => {
           <TicketProductsButtons ticket={ticket} products={products} onAction={refreshTicket} />
         </CardBody>
       </Card>
+      <Card>
+        <CardBody>
+          <Button onPress={() => setShowTicket(true)}>Ticket</Button>
+        </CardBody>
+      </Card>
     </div>
-    <Card className="hidden md:flex h-full w-[400px] shrink-0">
+    <Card className={`${showTicket ? 'absolute top-0 left-0 w-screen z-20' : 'hiddden'} md:relative md:flex h-full md:w-[400px] md:shrink-0`}>
       <CardHeader className="text-2xl font-bold">Ticket #{ticket?.id}</CardHeader>
       <CardBody>
         <section id="ticket-products" className="grow space-y-2 overflow-auto">
@@ -90,7 +96,6 @@ export const TicketRoute = () => {
           >
             Aceptar
           </Button>
-          {session.user.account.account_type == "cashier" && <div></div>}
           {session.user.account.account_type == "cashier" && <Button
             isDisabled={ticket?.ticket_products?.length == 0}
             color="secondary"
@@ -102,6 +107,9 @@ export const TicketRoute = () => {
           >
             Cobrar
           </Button>}
+          <Button className="md:hidden" onPress={() => setShowTicket(false)}>
+            Minimizar
+          </Button>
         </section>
       </CardBody>
     </Card>
