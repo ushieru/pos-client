@@ -25,6 +25,22 @@ export const useTable = () => {
                 .then(r => r.json())
         },
         /**
+         * Create a new ticket and link to table id
+         * @param {number} tableId
+         * @returns {Promise<object>}
+         */
+        createTicket: async (tableId) => {
+            const init = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${session.token}`
+                },
+            }
+            return fetch(`${url}/${tableId}/tickets`, init)
+                .then(r => r.json())
+        },
+        /**
          * Delete a table
          * @param {number} id 
          * @param {{name: string, pos_x: number, pos_y: number}} table
