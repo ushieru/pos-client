@@ -26,7 +26,7 @@ export const useCategory = () => {
         },
         /**
          * Delete a category
-         * @param {string} name 
+         * @param {string} id 
          * @returns {Promise<[object, number]>}
          */
         deleteCategory: async (id) => {
