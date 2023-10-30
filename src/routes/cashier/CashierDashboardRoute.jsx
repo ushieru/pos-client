@@ -25,7 +25,7 @@ export const CashierDashboardRoute = () => {
   return <div className="h-screen w-screen p-5">
     <Card className="mb-5">
       <CardHeader className="justify-between">
-        Cashier
+        Cajero
         <Button onPress={closeSession}>
           Cerrar Sesion
           <MdExitToApp className="text-lg" />
