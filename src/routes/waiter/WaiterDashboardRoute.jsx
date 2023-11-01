@@ -49,7 +49,7 @@ export const WaiterDashboardRoute = () => {
         </Button>
       </CardHeader>
     </Card>
-    <Card className="">
+    <Card>
       <CardBody className={`grid gap-1 ${isMobile ? "grid-cols-5" : "grid-cols-10"}`}>
         {
           tables.map((table, i) => {
