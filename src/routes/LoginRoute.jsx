@@ -9,7 +9,7 @@ import {
     useDisclosure,
 } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
-import { MdSettingsApplications } from 'react-icons/md'
+import { MdSettings } from 'react-icons/md'
 import { useSessionStore } from "@/stores/useSessionStore";
 import { ConfigModal } from "@/components/modals/ConfigModal";
 
@@ -39,7 +39,7 @@ export const LoginRoute = () => {
             <CardHeader className="justify-between">
                 <span>Total POS</span>
                 <Button isIconOnly onPress={() => onOpen()}>
-                    <MdSettingsApplications className="text-2xl" />
+                    <MdSettings className="text-2xl" />
                 </Button>
             </CardHeader>
             <Divider />
