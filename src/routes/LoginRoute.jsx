@@ -9,14 +9,24 @@ import {
     useDisclosure,
 } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
-import { MdSettings } from 'react-icons/md'
+import { MdSettings, MdInfo } from 'react-icons/md'
 import { useSessionStore } from "@/stores/useSessionStore";
 import { ConfigModal } from "@/components/modals/ConfigModal";
+import { InfoModal } from "@/components/modals/InfoModal";
 
 export const LoginRoute = () => {
     const navigate = useNavigate();
     const sessionStore = useSessionStore(s => ({ ...s }))
-    const { isOpen, onOpenChange, onOpen } = useDisclosure()
+    const {
+        isOpen: isOpenConfigModal,
+        onOpenChange: onOpenChangeConfigModal,
+        onOpen: onOpenConfigModal
+    } = useDisclosure()
+    const {
+        isOpen: isOpenInfoModal,
+        onOpenChange: onOpenChangeInfoModal,
+        onOpen: onOpenInfoModal
+    } = useDisclosure()
 
 
     useEffect(() => {
@@ -38,9 +48,14 @@ export const LoginRoute = () => {
         <Card className="w-[500px]">
             <CardHeader className="justify-between">
                 <span>Total POS</span>
-                <Button isIconOnly onPress={() => onOpen()}>
-                    <MdSettings className="text-2xl" />
-                </Button>
+                <div className="space-x-1">
+                    <Button isIconOnly onPress={() => onOpenConfigModal()}>
+                        <MdSettings className="text-2xl" />
+                    </Button>
+                    <Button isIconOnly onPress={() => onOpenInfoModal()}>
+                        <MdInfo className="text-2xl" />
+                    </Button>
+                </div>
             </CardHeader>
             <Divider />
             <CardBody>
@@ -55,6 +70,7 @@ export const LoginRoute = () => {
                 </form>
             </CardBody>
         </Card>
-        <ConfigModal isOpen={isOpen} onOpenChange={onOpenChange} />
+        <ConfigModal isOpen={isOpenConfigModal} onOpenChange={onOpenChangeConfigModal} />
+        <InfoModal isOpen={isOpenInfoModal} onOpenChange={onOpenChangeInfoModal} />
     </div>
 }
