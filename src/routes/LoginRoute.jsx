@@ -45,7 +45,7 @@ export const LoginRoute = () => {
     }
 
     return <div className="h-screen w-screen grid place-items-center">
-        <Card className="max-w-[500px]">
+        <Card className="w-[300px] sm:max-w-[500px] sm:w-full">
             <CardHeader className="justify-between">
                 <span>Total POS</span>
                 <div className="space-x-1">
