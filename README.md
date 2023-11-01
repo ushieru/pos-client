@@ -1,1 +1,3 @@
-# pos-ui
+# POS UI
+
+### [Total Pos](https://github.com/ushieru/total-pos)
