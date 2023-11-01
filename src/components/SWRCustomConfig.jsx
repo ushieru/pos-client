@@ -5,7 +5,7 @@ import { useConfigStore } from '@/stores/useConfigStore'
 
 export const SWRCustomConfig = ({ children }) => {
     const session = useSessionStore(s => s.session)
-    const urlServer = useConfigStore(s => s.urlServer)
+    const urlServer = useConfigStore(s => s.urlServer())
 
     return <SWRConfig value={{
         refreshInterval: 3000,

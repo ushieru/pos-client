@@ -2,7 +2,7 @@ import { useConfigStore } from "../stores/useConfigStore"
 import { useSessionStore } from "../stores/useSessionStore"
 
 export const useTable = () => {
-    const urlServer = useConfigStore(state => state.urlServer)
+    const urlServer = useConfigStore(state => state.urlServer())
     const session = useSessionStore(state => state.session)
     const url = `${urlServer}/tables`
     return {

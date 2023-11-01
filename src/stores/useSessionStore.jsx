@@ -6,7 +6,9 @@ export const useSessionStore = create((set) => ({
     initSession: async (user, password) => {
         const credentials = btoa(`${user}:${password}`)
         const basicAuth = `Basic ${credentials}`
-        return fetch('http://localhost:8080/api/auth', {
+        const host = localStorage.getItem("pos-x-host") ?? "localhost"
+        const port = localStorage.getItem("pos-x-port") ?? "8080"
+        return fetch(`http://${host}:${port}/api/auth`, {
             method: 'POST',
             headers: { 'Authorization': basicAuth }
         })

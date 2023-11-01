@@ -1,18 +1,23 @@
+import { useEffect } from "react";
 import {
     Card,
     CardHeader,
     CardBody,
     Divider,
     Input,
-    Button
+    Button,
+    useDisclosure,
 } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
+import { MdSettingsApplications } from 'react-icons/md'
 import { useSessionStore } from "@/stores/useSessionStore";
-import { useEffect } from "react";
+import { ConfigModal } from "@/components/modals/ConfigModal";
 
 export const LoginRoute = () => {
     const navigate = useNavigate();
-    const sessionStore = useSessionStore(state => state)
+    const sessionStore = useSessionStore(s => ({ ...s }))
+    const { isOpen, onOpenChange, onOpen } = useDisclosure()
+
 
     useEffect(() => {
         switch (sessionStore.session?.user.account.account_type) {
@@ -31,8 +36,11 @@ export const LoginRoute = () => {
 
     return <div className="h-screen w-screen grid place-items-center">
         <Card className="w-[500px]">
-            <CardHeader>
-                Total POS
+            <CardHeader className="justify-between">
+                <span>Total POS</span>
+                <Button isIconOnly onPress={() => onOpen()}>
+                    <MdSettingsApplications className="text-2xl" />
+                </Button>
             </CardHeader>
             <Divider />
             <CardBody>
@@ -47,5 +55,6 @@ export const LoginRoute = () => {
                 </form>
             </CardBody>
         </Card>
+        <ConfigModal isOpen={isOpen} onOpenChange={onOpenChange} />
     </div>
 }
