@@ -7,7 +7,7 @@ import {
     Button,
 } from "@nextui-org/react";
 
-export const YesNoModal = ({ isOpen, onOpenChange, title, body, onAccept }) => {
+export const YesNoModal = ({ isOpen, onOpenChange, title, body, onAccept, children }) => {
     return <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
@@ -18,7 +18,7 @@ export const YesNoModal = ({ isOpen, onOpenChange, title, body, onAccept }) => {
             {(onClose) => <>
                 <ModalHeader>{title}</ModalHeader>
                 <ModalBody>
-                    {body}
+                    {body || children}
                 </ModalBody>
                 <ModalFooter>
                     <Button type="button" variant="flat" onPress={onClose}>
