@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet } from "react-router-dom";
+import { createHashRouter, Outlet } from "react-router-dom";
 import { LoginRoute } from "./routes/LoginRoute";
 import { TicketRoute } from "./routes/TicketRoute";
 import { AdminLayout } from "./components/layouts/AdminLayout";
@@ -17,7 +17,7 @@ import {
 import { CashierDashboardRoute } from "./routes/cashier/CashierDashboardRoute";
 import { PrivateRoute } from "./components/PrivateRoute";
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
     {
         path: "/",
         element: <LoginRoute />,
