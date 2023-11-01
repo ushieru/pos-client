@@ -1,4 +1,3 @@
-import React from "react";
 import {
     Modal,
     ModalContent,
@@ -35,5 +34,5 @@ export const YesNoModal = ({ isOpen, onOpenChange, title, body, onAccept }) => {
             </>
             }
         </ModalContent>
-    </Modal >;
+    </Modal>
 }
