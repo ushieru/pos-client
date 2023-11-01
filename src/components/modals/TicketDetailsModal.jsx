@@ -19,7 +19,7 @@ export const TicketDetailsModal = ({ isOpen, onOpenChange, ticket }) => {
     return <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        placement="top-center"
+        placement="center"
         scrollBehavior="inside"
         className="dark text-foreground"
     >

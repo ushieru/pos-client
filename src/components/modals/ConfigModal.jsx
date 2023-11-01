@@ -19,7 +19,7 @@ export const ConfigModal = ({ isOpen, onOpenChange }) => {
     return <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        placement="top-center"
+        placement="center"
         className="dark text-foreground"
     >
         <ModalContent>

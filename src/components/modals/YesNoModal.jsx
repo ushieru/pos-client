@@ -11,7 +11,7 @@ export const YesNoModal = ({ isOpen, onOpenChange, title, body, onAccept, childr
     return <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        placement="top-center"
+        placement="center"
         className="dark text-foreground"
     >
         <ModalContent>
