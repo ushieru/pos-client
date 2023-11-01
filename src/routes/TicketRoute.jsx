@@ -6,6 +6,8 @@ import {
   CardHeader,
   Divider,
   Button,
+  Input,
+  useDisclosure,
 } from "@nextui-org/react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSessionStore } from "@/stores/useSessionStore";
@@ -13,6 +15,7 @@ import { useTicket } from "@/hooks/useTicket";
 import { toast } from "react-toastify";
 import { TicketProductsButtons } from "@/components/TicketProductButtons";
 import { TicketTicketProducts } from "@/components/TicketTicketProducts";
+import { YesNoModal } from "@/components/modals/YesNoModal";
 
 export const TicketRoute = () => {
   const { ticketId } = useParams()
@@ -21,6 +24,7 @@ export const TicketRoute = () => {
   const { data: ticket, mutate: refreshTicket } = useSWR("/tickets/" + ticketId)
   const [currentCategory, setCurrentCategory] = useState(null)
   const { data: products } = useSWR(currentCategory && `/products/categories/${currentCategory.id}`)
+  const { isOpen, onOpenChange, onOpen } = useDisclosure()
   const {
     payTicket,
     deleteTicket
@@ -99,11 +103,7 @@ export const TicketRoute = () => {
           {session.user.account.account_type == "cashier" && <Button
             isDisabled={ticket?.ticket_products?.length == 0}
             color="secondary"
-            onPress={() => payTicket(ticket?.id)
-              .then(r => {
-                if (r.code) return
-                navigate("/cashier/dashboard")
-              })}
+            onPress={() => onOpen()}
           >
             Cobrar
           </Button>}
@@ -113,5 +113,32 @@ export const TicketRoute = () => {
         </section>
       </CardBody>
     </Card>
+    <YesNoModal
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      title="Cobrar"
+      onAccept={() => payTicket(ticket?.id)
+        .then(r => {
+          if (r.code) return
+          navigate("/cashier/dashboard")
+        })}
+    >
+      {
+        (() => {
+          const [exchange, setExchange] = useState(0)
+          return <>
+            <p>Total a pagar <span className="font-bold">${ticket?.total}</span></p>
+            <label>Paga con:
+              <Input
+                type="number"
+                onKeyDown={e => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()}
+                onChange={(e) => setExchange(e.target.value - ticket?.total)}
+              />
+            </label>
+            <p>Cambio: <span className="font-bold">${exchange}</span></p>
+          </>
+        })()
+      }
+    </YesNoModal>
   </div>
 }
