@@ -25,10 +25,12 @@ export const useProduct = () => {
          * @param {string} name 
          * @param {string} description 
          * @param {number} price
+         * @param {string} available_from  date as ISO 8601
+         * @param {string} available_until date as ISO 8601
          * @returns {Promise<object>}
          */
-        createProduct: async (name, description, price) => {
-            const dto = { name, description, price }
+        createProduct: async (name, description, price, available_from, available_until) => {
+            const dto = { name, description, price, available_from, available_until }
             const init = {
                 method: 'POST',
                 headers: {

@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { TicketProductsButtons } from "@/components/TicketProductButtons";
 import { TicketTicketProducts } from "@/components/TicketTicketProducts";
 import { YesNoModal } from "@/components/modals/YesNoModal";
+import { FilterBuilder } from "@/utils/filterBuilder";
 
 export const TicketRoute = () => {
   const { ticketId } = useParams()
@@ -23,7 +24,11 @@ export const TicketRoute = () => {
   const { data: categories } = useSWR("/categories")
   const { data: ticket, mutate: refreshTicket } = useSWR("/tickets/" + ticketId)
   const [currentCategory, setCurrentCategory] = useState(null)
-  const { data: products } = useSWR(currentCategory && `/products/categories/${currentCategory.id}`)
+  const filters = new FilterBuilder()
+    .addFilter("Date('now')", ">=", "Date(available_from)")
+    .addFilter("Date('now')", "<=", "Date(available_until)")
+    .build()
+  const { data: products } = useSWR(currentCategory && `/products/categories/${currentCategory.id}?${filters}`)
   const { isOpen, onOpenChange, onOpen } = useDisclosure()
   const {
     payTicket,

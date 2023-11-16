@@ -17,6 +17,7 @@ import { Link } from "react-router-dom"
 import { MdDelete, MdAddLink } from 'react-icons/md'
 import { useProduct } from "@/hooks/useProduct"
 import { YesNoModal } from "@/components/modals/YesNoModal"
+import dayjs from "dayjs"
 
 export const ProductsTable = () => {
     const { data, mutate } = useSWR('/products')
@@ -31,6 +32,8 @@ export const ProductsTable = () => {
             case 'name': return product.name
             case 'description': return product.description
             case 'price': return `$${product.price}`
+            case 'availableFrom': return dayjs(product.available_from).format("DD/MM/YYYY")
+            case 'availableUntil': return dayjs(product.available_until).format("DD/MM/YYYY")
             case 'actions': return <div className="flex gap-1">
                 <Button
                     color="danger"
@@ -97,6 +100,14 @@ const columns = [
     {
         key: "price",
         label: "Price",
+    },
+    {
+        key: "availableFrom",
+        label: "Disponible desde",
+    },
+    {
+        key: "availableUntil",
+        label: "Disponible hasta",
     },
     {
         key: "actions",

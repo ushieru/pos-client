@@ -8,6 +8,7 @@ import {
     Input,
 } from "@nextui-org/react";
 import { toast } from 'react-toastify';
+import dayjs from "dayjs";
 import { useProduct } from '@/hooks/useProduct'
 
 export const CreateProductModal = ({ isOpen, onOpenChange }) => {
@@ -18,11 +19,14 @@ export const CreateProductModal = ({ isOpen, onOpenChange }) => {
         const name = event.target.name.value
         const description = event.target.description.value
         const price = event.target.price.value
-        createProduct(name, description, +price).then((response) => {
-            if (response.code) return toast.error(response.message)
-            toast.success("Producto creado")
-            onClose()
-        })
+        const availableFrom = event.target.availableFrom.value
+        const availableUnti = event.target.availableUntil.value
+        createProduct(name, description, +price, dayjs(availableFrom).toISOString(), dayjs(availableUnti).toISOString())
+            .then((response) => {
+                if (response.code) return toast.error(response.message)
+                toast.success("Producto creado")
+                onClose()
+            })
     }
 
     return <Modal
@@ -49,6 +53,16 @@ export const CreateProductModal = ({ isOpen, onOpenChange }) => {
                             type="number"
                             name="price"
                             placeholder="Precio"
+                        />
+                        <Input
+                            type="date"
+                            name="availableFrom"
+                            placeholder="Disponible desde"
+                        />
+                        <Input
+                            type="date"
+                            name="availableUntil"
+                            placeholder="Disponible hasta"
                         />
                     </ModalBody>
                     <ModalFooter>
