@@ -12,9 +12,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <NextUIProvider>
       <SWRCustomConfig>
-        <main className="dark text-foreground bg-background">
-          <RouterProvider router={router} />
-        </main>
+        <RouterProvider router={router} />
         <ToastContainer
           theme="dark"
           autoClose={3000}
