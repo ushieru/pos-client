@@ -9,7 +9,7 @@ import {
     getKeyValue,
 } from "@nextui-org/react"
 
-export const AdminsTable = () => {
+export const UsersTable = () => {
     const { data, error, isLoading } = useSWR('/users')
 
     return <Table aria-label="No hay usuarios">
