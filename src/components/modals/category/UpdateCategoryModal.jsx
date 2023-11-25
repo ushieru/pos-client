@@ -32,7 +32,7 @@ export const UpdateCategoryModal = ({ isOpen, onOpenChange, category }) => {
         <ModalContent>
             {(onClose) => (
                 <form onSubmit={onSubmit(onClose)}>
-                    <ModalHeader className="flex flex-col gap-1">Nueva Categoria</ModalHeader>
+                    <ModalHeader className="flex flex-col gap-1">Actualizar Categoria</ModalHeader>
                     <ModalBody>
                         <Input
                             autoFocus
@@ -46,7 +46,7 @@ export const UpdateCategoryModal = ({ isOpen, onOpenChange, category }) => {
                             Cancelar
                         </Button>
                         <Button type="submit" color="primary">
-                            Crear
+                            Actualizar
                         </Button>
                     </ModalFooter>
                 </form>
