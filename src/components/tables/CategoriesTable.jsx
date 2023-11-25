@@ -13,14 +13,16 @@ import {
     Button,
     useDisclosure
 } from "@nextui-org/react"
-import { MdDelete } from 'react-icons/md'
+import { MdDelete, MdEdit } from 'react-icons/md'
 import { YesNoModal } from "@/components/modals/YesNoModal"
 import { useCategory } from '@/hooks/useCategory'
+import { UpdateCategoryModal } from "@/components/modals/category/UpdateCategoryModal"
 
 export const CategoriesTable = () => {
     const { data, mutate } = useSWR('/categories')
     const { deleteCategory } = useCategory()
-    const { isOpen, onOpenChange, onOpen } = useDisclosure()
+    const { isOpen: deleteIsOpen, onOpenChange: deleteOnOpenChange, onOpen: deleteOnOpen } = useDisclosure()
+    const { isOpen: updateIsOpen, onOpenChange: updateOnOpenChange, onOpen: updateOnOpen } = useDisclosure()
     const [selectedCategory, setSelectedCategory] = useState()
     const [searchText, setSearchText] = useState("")
 
@@ -28,14 +30,20 @@ export const CategoriesTable = () => {
         switch (columnKey) {
             case 'id': return category.id
             case 'name': return category.name
-            case 'actions': return <>
+            case 'actions': return <div className="flex gap-1">
                 <Button
                     color="danger"
                     isIconOnly
-                    onPress={() => { setSelectedCategory(category); onOpen() }}>
+                    onPress={() => { setSelectedCategory(category); deleteOnOpen() }}>
                     <MdDelete className="text-xl" />
                 </Button>
-            </>
+                <Button
+                    color="secondary"
+                    isIconOnly
+                    onPress={() => { setSelectedCategory(category); updateOnOpen() }}>
+                    <MdEdit className="text-xl" />
+                </Button>
+            </div>
         }
     }, [])
 
@@ -63,8 +71,13 @@ export const CategoriesTable = () => {
             title="Eliminar Categoria"
             body={`Seguro que desea eliminar la categoria "${selectedCategory?.name}"?`}
             onAccept={() => deleteCategory(selectedCategory?.id).then(_ => mutate())}
-            onOpenChange={onOpenChange}
-            isOpen={isOpen}
+            onOpenChange={deleteOnOpenChange}
+            isOpen={deleteIsOpen}
+        />
+        <UpdateCategoryModal
+            isOpen={updateIsOpen}
+            onOpenChange={updateOnOpenChange}
+            category={selectedCategory}
         />
     </>
 }

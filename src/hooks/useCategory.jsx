@@ -25,6 +25,25 @@ export const useCategory = () => {
                 .then(r => r.json())
         },
         /**
+        * Update a new category
+        * @param {number} category id
+        * @param {string} name 
+        * @returns {object} Category instance or Error
+        */
+        updateCategory: async (id, name) => {
+            const dto = { name }
+            const init = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${session.token}`
+                },
+                body: JSON.stringify(dto)
+            }
+            return fetch(`${url}/${id}`, init)
+                .then(r => r.json())
+        },
+        /**
          * Delete a category
          * @param {string} id 
          * @returns {Promise<[object, number]>}
