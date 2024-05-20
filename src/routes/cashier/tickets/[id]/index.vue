@@ -4,8 +4,9 @@ import { useRoute, useRouter } from 'vue-router'
 import { useQuery } from '@tanstack/vue-query';
 import { PosSingleton } from '@/services/pos-service'
 import { Filter, FilterBuilderOperator } from '@/services/pos-service/util/Filter';
+import PayTicketModal from '@/components/PayTicketModal.vue'
 const pos = PosSingleton.instance
-
+const session = pos.auth.session
 const route = useRoute()
 const router = useRouter()
 const { id: ticketId } = route.params
@@ -20,7 +21,7 @@ const { data: ticket, refetch: refetchTicket } = useQuery({
 })
 const { data: categories } = useQuery({
     queryKey: ['categories'],
-    queryFn: pos.category.getCategories,
+    queryFn: () => pos.category.getCategories(),
     initialData: [],
     refetchInterval: 5000,
 })
@@ -33,15 +34,25 @@ const { data: productsByCategory, refetch: refetchProductsByCategory } = useQuer
 watch(categories, (categories) => {
     if (!categories.length) return
     currentCategory.value = categories[0]
-}, {})
+    refetchProductsByCategory()
+}, { once: true })
+watch(ticket, (ticket) => {
+    if (ticket.ticket_status != 'paid') return
+    document.getElementById('paid_modal').showModal()
+})
 const selectCategory = (category) => {
     currentCategory.value = category
     refetchProductsByCategory()
 }
+const goToTickets = () => {
+    if (session.user.account.account_type == 'cashier')
+        router.push('/cashier/tickets')
+    if (session.user.account.account_type == 'waiter')
+        router.push('/waiter/tickets')
+}
 const addTicketProduct = (productId) => pos.ticket.addProduct(ticket.value.id, productId).then(_ => refetchTicket())
 const deleteTicketProduct = (productId) => pos.ticket.deleteProduct(ticket.value.id, productId).then(_ => refetchTicket())
-const cancelTicket = () => pos.ticket.deleteTicket(ticket.value.id).then(_ => router.back())
-const onPayTicket = () => pos.ticket.payTicket(ticket.value.id).then(_ => router.back())
+const cancelTicket = () => pos.ticket.deleteTicket(ticket.value.id).then(goToTickets)
 </script>
 
 <template>
@@ -103,11 +114,21 @@ const onPayTicket = () => pos.ticket.payTicket(ticket.value.id).then(_ => router
                         :disabled="ticket.ticket_products.length != 0" @click="cancelTicket">
                         Cancelar
                     </button>
-                    <button class="btn btn-primary" @click="onPayTicket" :disabled="ticket.ticket_products.length == 0">
+                    <button onclick="pay_modal.showModal()" class="btn btn-primary"
+                        :disabled="ticket.ticket_products.length == 0">
                         Cobrar
                     </button>
                 </section>
             </div>
         </div>
     </div>
+    <PayTicketModal v-if="ticket" :ticket="ticket" :goToTickets="() => goToTickets()" />
+    <dialog id="paid_modal" class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg">Este ticket ya esta pagado</h3>
+            <div class="flex justify-end">
+                <button @click="goToTickets" class="btn btn-primary">Volver</button>
+            </div>
+        </div>
+    </dialog>
 </template>
