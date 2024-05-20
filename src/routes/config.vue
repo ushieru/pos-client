@@ -1,10 +1,8 @@
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { PosSingleton } from '@/services/pos-service';
 import { toast } from '@/utils/Toast';
 const isLoading = ref(false)
-const router = useRouter()
 const pos = PosSingleton.instance
 const host = ref(pos.host)
 const onSubmit = (event) => {
