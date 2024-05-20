@@ -9,11 +9,15 @@ export enum FilterBuilderOperator {
   NOT_CONTAINS = "NOT_CONTAINS",
 }
 
-export class Filter {
+type ExtractStringPropertyNames<T> = {
+  [K in keyof T]: T[K] extends string ? K : never
+}[keyof T]
+
+export class Filter<T> {
   filters = []
 
-  add(field: string, operator: FilterBuilderOperator, value: string) {
-    const encodeField = encodeURIComponent(field)
+  add(field: ExtractStringPropertyNames<T>, operator: FilterBuilderOperator, value: string) {
+    const encodeField = encodeURIComponent(field.toString())
     const encodeOperator = encodeURIComponent(operator)
     const encodeValue = encodeURIComponent(value)
     this.filters.push({ field: encodeField, operator: encodeOperator, value: encodeValue })
@@ -26,5 +30,3 @@ export class Filter {
       '')
   }
 }
-
-
