@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/vue-query';
 import { PosSingleton } from '@/services/pos-service'
 import { Filter, FilterBuilderOperator } from '@/services/pos-service/util/Filter';
 import PayTicketModal from '@/components/PayTicketModal.vue'
+import Ticket from '@/components/Ticket.vue'
 const pos = PosSingleton.instance
 const session = pos.auth.session
 const route = useRoute()
@@ -56,8 +57,8 @@ const cancelTicket = () => pos.ticket.deleteTicket(ticket.value.id).then(goToTic
 </script>
 
 <template>
-    <div class="flex gap-1">
-        <div class="flex flex-col gap-5 w-full">
+    <div class="grow flex gap-1">
+        <div class="grow flex flex-col gap-5">
             <div class="card bg-base-200 shadow-xl">
                 <div class="card-body flex-row gap-2 overflow-x-auto">
                     <button v-for="category in categories" class="btn"
@@ -67,58 +68,38 @@ const cancelTicket = () => pos.ticket.deleteTicket(ticket.value.id).then(goToTic
                     </button>
                 </div>
             </div>
-            <div class="card bg-base-200 shadow-xl">
+            <div class="grow card bg-base-200 shadow-xl">
+                <div class="card-body h-1">
+                    <div class="overflow-y-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 auto-rows-max gap-2">
+                        <button v-for="product in productsByCategory" class="btn btn-ghost w-full h-40"
+                            @click="addTicketProduct(product.id)">
+                            <p> {{ product.name }}</p>
+                            <p> ${{ product.price }}</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex lg:hidden card bg-base-200 shadow-xl">
                 <div class="card-body flex-row gap-2 overflow-x-auto">
-                    <button v-for="product in productsByCategory" class="btn" @click="addTicketProduct(product.id)">
-                        {{ product.name }}
+                    <button class="btn btn-primary w-full" onclick="ticket_modal.showModal()">
+                        Ticket
                     </button>
+                    <dialog id="ticket_modal" class="modal">
+                        <div class="modal-box flex flex-col h-[80%]">
+                            <Ticket v-if="ticket" :ticket="ticket" :addTicketProduct="addTicketProduct"
+                                :deleteTicketProduct="deleteTicketProduct" :cancelTicket="cancelTicket" />
+                        </div>
+                        <form method="dialog" class="modal-backdrop">
+                            <button>close</button>
+                        </form>
+                    </dialog>
                 </div>
             </div>
         </div>
-        <div class="card bg-base-200 shadow-xl w-[450px] h-[95vh]">
-            <div v-if="ticket" class="card-body">
-                <h1 class="text-2xl font-bold">Ticket #{{ ticket.id }}</h1>
-                <div class="divider"></div>
-                <div class="h-full">
-                    <div v-for="ticketProduct in ticket.ticket_products" class="card bg-base-100 shadow-xl">
-                        <div class="card-body p-3">
-                            <div class="flex justify-between">
-                                <span class="font-bold">{{ ticketProduct.name }}</span>
-                                <span class="">${{ ticketProduct.price }} c/u</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="flex items-center gap-2">
-                                    <button class="btn btn-sm" @click="deleteTicketProduct(ticketProduct.product_id)">
-                                        <span v-if="ticketProduct.quantity == 1" class="material-symbols-outlined">
-                                            delete
-                                        </span>
-                                        <span v-else class="material-symbols-outlined">
-                                            remove
-                                        </span>
-                                    </button>
-                                    {{ ticketProduct.quantity }}
-                                    <button class="btn btn-sm" @click="addTicketProduct(ticketProduct.product_id)">
-                                        <span class="material-symbols-outlined">
-                                            add
-                                        </span>
-                                    </button>
-                                </span>
-                                <span class="">${{ ticketProduct.price * ticketProduct.quantity }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="divider"></div>
-                <section class="grid grid-cols-2 gap-2">
-                    <button class="btn btn-error" :class="{ 'btn-disabled': ticket.ticket_products.length != 0 }"
-                        :disabled="ticket.ticket_products.length != 0" @click="cancelTicket">
-                        Cancelar
-                    </button>
-                    <button onclick="pay_modal.showModal()" class="btn btn-primary"
-                        :disabled="ticket.ticket_products.length == 0">
-                        Cobrar
-                    </button>
-                </section>
+        <div class="hidden lg:flex card bg-base-200 shadow-xl w-[450px] h-[95vh]">
+            <div v-if="ticket" class="card-body h-full">
+                <Ticket v-if="ticket" :ticket="ticket" :addTicketProduct="addTicketProduct"
+                    :deleteTicketProduct="deleteTicketProduct" :cancelTicket="cancelTicket" />
             </div>
         </div>
     </div>

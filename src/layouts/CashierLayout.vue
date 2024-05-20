@@ -3,10 +3,10 @@ const toggleDrawer = () => document.getElementById('my-drawer').click()
 </script>
 
 <template>
-    <div class="drawer lg:drawer-open">
+    <div class="h-full drawer lg:drawer-open">
         <input id="my-drawer" type="checkbox" class="drawer-toggle" />
-        <div class="drawer-content">
-            <div class="flex lg:hidden navbar bg-base-100">
+        <div class="drawer-content h-screen flex flex-col">
+            <div class="navbar flex lg:hidden bg-base-100">
                 <div class="flex-none">
                     <label for="my-drawer" aria-label="open sidebar"
                         class="btn btn-square btn-ghost grid place-content-center material-symbols-outlined">
@@ -17,7 +17,7 @@ const toggleDrawer = () => document.getElementById('my-drawer').click()
                     <a class="text-xl">POS</a>
                 </div>
             </div>
-            <div class="p-1 sm:p-5">
+            <div class="grow flex flex-col p-1 sm:p-5">
                 <RouterView></RouterView>
             </div>
         </div>
