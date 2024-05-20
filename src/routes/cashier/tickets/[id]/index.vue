@@ -70,12 +70,22 @@ const cancelTicket = () => pos.ticket.deleteTicket(ticket.value.id).then(goToTic
             </div>
             <div class="grow card bg-base-200 shadow-xl">
                 <div class="card-body h-1">
-                    <div class="overflow-y-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 auto-rows-max gap-2">
-                        <button v-for="product in productsByCategory" class="btn btn-ghost w-full h-40"
-                            @click="addTicketProduct(product.id)">
-                            <p> {{ product.name }}</p>
-                            <p> ${{ product.price }}</p>
-                        </button>
+                    <div
+                        class="p-5 overflow-y-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-max gap-3 sm:gap-4">
+                        <template v-for="product in productsByCategory">
+                            <div class="indicator w-full">
+                                <span v-if="ticket"
+                                    v-show="ticket.ticket_products.find(p => p.product_id == product.id)"
+                                    class="indicator-item badge badge-primary">
+                                    {{ ticket.ticket_products.find(p => p.product_id == product.id)?.quantity }}
+                                </span>
+                                <button class="btn btn-neutral flex flex-col w-full h-40"
+                                    @click="addTicketProduct(product.id)">
+                                    <span> {{ product.name }}</span>
+                                    <kbd class="kbd">${{ product.price }}</kbd>
+                                </button>
+                            </div>
+                        </template>
                     </div>
                 </div>
             </div>
