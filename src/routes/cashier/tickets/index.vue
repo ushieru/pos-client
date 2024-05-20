@@ -4,7 +4,7 @@ import { PosSingleton } from '@/services/pos-service'
 import { Filter, FilterBuilderOperator } from '@/services/pos-service/util/Filter';
 const pos = PosSingleton.instance
 
-const sessionId = pos.auth.session
+const sessionId = pos.auth.session.user.id
 const filter = new Filter()
     .add('account_id', FilterBuilderOperator.EQUAL, sessionId)
     .add('ticket_status', FilterBuilderOperator.EQUAL, '"open"')
