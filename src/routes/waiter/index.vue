@@ -3,18 +3,17 @@ import { useRouter } from 'vue-router'
 import { useQuery } from '@tanstack/vue-query'
 import { orderTables } from '@/utils/tableUtils';
 import { PosSingleton } from '@/services/pos-service'
+import useResize from '@/hooks/useResize'
+const { screenWidth } = useResize()
 const pos = PosSingleton.instance
-
 const router = useRouter()
 const session = pos.auth.session
-
 const { data } = useQuery({
     queryKey: ['tables'],
-    queryFn: () => pos.table.getTables().then(tables => orderTables(tables, true)),
+    queryFn: () => pos.table.getTables(),
     initialData: [],
     refetchInterval: 5000,
 })
-
 const createTicket = (tableId) => {
     pos.table.createTicketTable(tableId).then(response => {
         if (response.code) return console.error(response)
@@ -30,8 +29,8 @@ const openTicket = (ticketId) => router.push(`/waiter/tickets/${ticketId}`);
     <div class="flex flex-col gap-5">
         <div class="card bg-base-200 shadow-xl">
             <div class="card-body">
-                <div class="grid gap-1 grid-cols-5">
-                    <template v-for="table in data">
+                <div class="grid gap-1 grid-cols-5 sm:grid-cols-10">
+                    <template v-for="table in orderTables(data, screenWidth < 640)">
                         <div v-if="!table" class="aspect-square bg-gray-500"></div>
                         <button v-else-if="!table.ticket_id" @click="createTicket(table.id)"
                             class="btn bg-primary h-full">
