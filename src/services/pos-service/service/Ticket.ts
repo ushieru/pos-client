@@ -1,5 +1,6 @@
 import { AuthStore } from "../store/AuthStore"
 import { Filter } from "../util/Filter"
+import { Ticket as TicketModel } from '../model/Ticket'
 
 export class Ticket {
     constructor(
@@ -8,7 +9,7 @@ export class Ticket {
         private readonly serviceUri = `${host}/api/tickets`
     ) { }
 
-    async getTickets(filter?: Filter) {
+    async getTickets(filter?: Filter<TicketModel>): Promise<TicketModel> {
         const init = { headers: { 'Authorization': `Bearer ${this.authStore.session.token}` } }
         return fetch(`${this.serviceUri}?${filter ? filter.build() : ''}`, init).then(r => r.json())
     }

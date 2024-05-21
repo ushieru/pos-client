@@ -12,7 +12,7 @@ const { data: product, refetch: refetchProduct, idLoading: isLoadingProduct } = 
 })
 const { data: categories } = useQuery({
     queryKey: ['categories'],
-    queryFn: pos.category.getCategories,
+    queryFn: () => pos.category.getCategories(),
     refetchInterval: 5000,
 })
 </script>

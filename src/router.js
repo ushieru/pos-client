@@ -15,6 +15,7 @@ import NewProduct from './routes/admin/products/new.vue'
 import EditProduct from './routes/admin/products/[id]/edit.vue'
 import ProductCategories from './routes/admin/products/[id]/categories/index.vue'
 import Tables from './routes/admin/tables/index.vue'
+import Tickets from './routes/admin/tickets/index.vue'
 import CashierLayout from './layouts/CashierLayout.vue'
 import Cashier from './routes/cashier/index.vue'
 import CashierTickets from './routes/cashier/tickets/index.vue'
@@ -55,6 +56,7 @@ const routes = [
                 ]
             },
             { path: 'tables', component: Tables },
+            { path: 'tickets', component: Tickets },
         ]
     },
     {
