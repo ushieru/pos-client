@@ -49,7 +49,7 @@ const goToTickets = () => {
     if (session.user.account.account_type == 'cashier')
         router.push('/cashier/tickets')
     if (session.user.account.account_type == 'waiter')
-        router.push('/waiter/tickets')
+        router.push('/waiter')
 }
 const addTicketProduct = (productId) => pos.ticket.addProduct(ticket.value.id, productId).then(_ => refetchTicket())
 const deleteTicketProduct = (productId) => pos.ticket.deleteProduct(ticket.value.id, productId).then(_ => refetchTicket())
