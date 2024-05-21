@@ -20,7 +20,8 @@ import Cashier from './routes/cashier/index.vue'
 import CashierTickets from './routes/cashier/tickets/index.vue'
 import CashierNewTicket from './routes/cashier/tickets/new.vue'
 import CashierTicketId from './routes/cashier/tickets/[id]/index.vue'
-import Waiter from './routes/waiter/index.vue'
+import WaiterLayout from './layouts/WaiterLayout.vue'
+import WaiterTables from './routes/waiter/index.vue'
 import WaiterTicketId from './routes/waiter/tickets/[id]/index.vue'
 import Config from './routes/config.vue'
 
@@ -65,8 +66,8 @@ const routes = [
         ]
     },
     {
-        path: '/waiter', children: [
-            { path: '', component: Waiter },
+        path: '/waiter', component: WaiterLayout, children: [
+            { path: '', component: WaiterTables },
             { path: 'tickets/:id', component: WaiterTicketId },
         ]
     },
