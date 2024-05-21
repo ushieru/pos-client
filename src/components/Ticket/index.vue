@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useQuery } from '@tanstack/vue-query';
 import { PosSingleton } from '@/services/pos-service'
 import { Filter, FilterBuilderOperator } from '@/services/pos-service/util/Filter';
-import PayTicketModal from '@/components/PayTicketModal.vue'
+import PayTicketModal from '@/components/Ticket/PayTicketModal.vue'
 import Ticket from '@/components/Ticket/Ticket.vue'
 const pos = PosSingleton.instance
 const session = pos.auth.session
@@ -96,8 +96,9 @@ const cancelTicket = () => pos.ticket.deleteTicket(ticket.value.id).then(goToTic
                     </button>
                     <dialog id="ticket_modal" class="modal">
                         <div class="modal-box flex flex-col h-[80%]">
-                            <Ticket v-if="ticket" :ticket="ticket" :addTicketProduct="addTicketProduct"
-                                :deleteTicketProduct="deleteTicketProduct" :cancelTicket="cancelTicket" />
+                            <Ticket v-if="ticket" :goToTickets="goToTickets" :session="session" :ticket="ticket"
+                                :addTicketProduct="addTicketProduct" :deleteTicketProduct="deleteTicketProduct"
+                                :cancelTicket="cancelTicket" />
                         </div>
                         <form method="dialog" class="modal-backdrop">
                             <button>close</button>
@@ -108,8 +109,9 @@ const cancelTicket = () => pos.ticket.deleteTicket(ticket.value.id).then(goToTic
         </div>
         <div class="hidden lg:flex card bg-base-200 shadow-xl w-[450px] h-[95vh]">
             <div v-if="ticket" class="card-body h-full">
-                <Ticket v-if="ticket" :ticket="ticket" :addTicketProduct="addTicketProduct"
-                    :deleteTicketProduct="deleteTicketProduct" :cancelTicket="cancelTicket" />
+                <Ticket v-if="ticket" :goToTickets="goToTickets" :session="session" :ticket="ticket"
+                    :addTicketProduct="addTicketProduct" :deleteTicketProduct="deleteTicketProduct"
+                    :cancelTicket="cancelTicket" />
             </div>
         </div>
     </div>

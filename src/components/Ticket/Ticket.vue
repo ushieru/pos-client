@@ -1,14 +1,18 @@
 <script setup>
 const {
+    session,
     ticket,
     addTicketProduct,
     deleteTicketProduct,
-    cancelTicket
+    cancelTicket,
+    goToTickets,
 } = defineProps([
+    'session',
     'ticket',
     'addTicketProduct',
     'deleteTicketProduct',
     'cancelTicket',
+    'goToTickets',
 ])
 </script>
 <template>
@@ -54,8 +58,13 @@ const {
             :disabled="ticket.ticket_products.length != 0" @click="cancelTicket()">
             Cancelar
         </button>
-        <button onclick="pay_modal.showModal()" class="btn btn-primary" :disabled="ticket.ticket_products.length == 0">
+        <button v-if="session.user.account.account_type == 'cashier'" onclick="pay_modal.showModal()"
+            class="btn btn-primary" :disabled="ticket.ticket_products.length == 0">
             Cobrar
+        </button>
+        <button v-if="session.user.account.account_type == 'waiter'" @click="goToTickets" class="btn btn-primary"
+            :disabled="ticket.ticket_products.length == 0">
+            Aceptar
         </button>
     </section>
 </template>
