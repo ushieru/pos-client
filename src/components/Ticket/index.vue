@@ -17,8 +17,8 @@ const productsFilter = new Filter()
     .add("Date('now')", FilterBuilderOperator.LTE, "Date(available_until)")
 const categoriesFilter = new Filter()
     .add("instr(available_days, strftime('%w', date('now')))", FilterBuilderOperator.GT, "0")
-    .add("time('now')", FilterBuilderOperator.GTE, "time(available_from_hour)")
-    .add("time('now')", FilterBuilderOperator.LTE, "time(available_until_hour)")
+    .add("time('now', 'localtime')", FilterBuilderOperator.GTE, "time(available_from_hour)")
+    .add("time('now', 'localtime')", FilterBuilderOperator.LTE, "time(available_until_hour)")
 const { data: ticket, refetch: refetchTicket } = useQuery({
     queryKey: ['ticket', ticketId],
     queryFn: () => pos.ticket.findTicket(ticketId),
