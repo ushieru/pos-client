@@ -46,25 +46,28 @@ const onSubmitCreateCategory = (e) => {
                     <div class="label">
                         <span class="label-text">Disponible desde</span>
                     </div>
-                    <input type="date" name="available_from" class="input input-bordered w-full" />
+                    <input :value="new Date().toISOString().split('T')[0]" type="date" name="available_from"
+                        class="input input-bordered w-full" />
                 </label>
                 <label class="form-control w-full">
                     <div class="label">
                         <span class="label-text">Disponible hasta</span>
                     </div>
-                    <input type="date" name="available_until" class="input input-bordered w-full" />
+                    <input
+                        :value="new Date(new Date().getFullYear() + 1, new Date().getMonth(), new Date().getDate()).toISOString().split('T')[0]"
+                        type="date" name="available_until" class="input input-bordered w-full" />
                 </label>
                 <label class="form-control w-full">
                     <div class="label">
                         <span class="label-text">Disponible desde la hora</span>
                     </div>
-                    <input type="time" name="available_from_hour" class="input input-bordered w-full" />
+                    <input value="00:00" type="time" name="available_from_hour" class="input input-bordered w-full" />
                 </label>
                 <label class="form-control w-full">
                     <div class="label">
                         <span class="label-text">Disponible hasta la hora</span>
                     </div>
-                    <input type="time" name="available_until_hour" class="input input-bordered w-full" />
+                    <input value="23:59" type="time" name="available_until_hour" class="input input-bordered w-full" />
                 </label>
                 <h1 class="font-bold text-gl lg:col-span-2">Dias disponible:</h1>
                 <div class="lg:col-span-2">
