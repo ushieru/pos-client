@@ -1,5 +1,6 @@
 export enum FilterBuilderOperator {
   EQUAL = "=",
+  LIKE = "like",
   NOT_EQUAL = "<>",
   GT = ">",
   GTE = ">=",

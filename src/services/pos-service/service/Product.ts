@@ -22,7 +22,7 @@ export class Product {
         return jsonResponse
     }
 
-    async getProductsByCategory(categoryId: number, filter?: Filter): Promise<ProductModel[]> {
+    async getProductsByCategory(categoryId: number, filter?: Filter<ProductModel>): Promise<ProductModel[]> {
         const init = { headers: { 'Authorization': `Bearer ${this.authStore.session.token}` } }
         const requestUrl = `${this.serviceUri}/categories/${categoryId}?${filter ? filter.build() : ''}`
         return fetch(requestUrl, init).then(r => r.json())

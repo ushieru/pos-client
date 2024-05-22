@@ -1,5 +1,6 @@
 import { AuthStore } from "../store/AuthStore"
-import { Category as CategoryModel } from "../model/Category"
+import { Category as CategoryModel, UpsertCategoryDTO } from "../model/Category"
+import { Filter } from "../util/Filter"
 
 export class Category {
 
@@ -9,11 +10,11 @@ export class Category {
         private readonly serviceUri = `${host}/api/categories`
     ) { }
 
-    async getCategories(): Promise<CategoryModel[]> {
+    async getCategories(filter?: Filter<CategoryModel>): Promise<CategoryModel[]> {
         const init = {
             headers: { 'Authorization': `Bearer ${this.authStore.session.token}` }
         }
-        return fetch(this.serviceUri, init).then(r => r.json())
+        return fetch(`${this.serviceUri}?${filter ? filter.build() : ''}`, init).then(r => r.json())
     }
 
     async getCategory(categoryId: number): Promise<CategoryModel[]> {
@@ -26,15 +27,20 @@ export class Category {
         return jsonResponse
     }
 
-    async createCategory(name: string): Promise<CategoryModel> {
-        const dto = { name }
+    async createCategory(dto: UpsertCategoryDTO): Promise<CategoryModel> {
+        const _dto = {
+            ...dto,
+            available_days: dto.available_days.toString(),
+            available_from: dto.available_from.toISOString(),
+            available_until: dto.available_until.toISOString(),
+        }
         const init = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${this.authStore.session.token}`
             },
-            body: JSON.stringify(dto)
+            body: JSON.stringify(_dto)
         }
         const response = await fetch(this.serviceUri, init)
         const jsonResponse = await response.json()
@@ -42,15 +48,20 @@ export class Category {
         return jsonResponse
     }
 
-    async updateCategory(id: number, name: string): Promise<CategoryModel> {
-        const dto = { name }
+    async updateCategory(id: number, dto: UpsertCategoryDTO): Promise<CategoryModel> {
+        const _dto = {
+            ...dto,
+            available_days: dto.available_days.toString(),
+            available_from: dto.available_from.toISOString(),
+            available_until: dto.available_until.toISOString()
+        }
         const init = {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${this.authStore.session.token}`
             },
-            body: JSON.stringify(dto)
+            body: JSON.stringify(_dto)
         }
         const response = await fetch(`${this.serviceUri}/${id}`, init)
         const jsonResponse = await response.json()
