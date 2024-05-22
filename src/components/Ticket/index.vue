@@ -12,9 +12,13 @@ const route = useRoute()
 const router = useRouter()
 const { id: ticketId } = route.params
 const currentCategory = ref(undefined)
-const filters = new Filter()
+const productsFilter = new Filter()
     .add("Date('now')", FilterBuilderOperator.GTE, "Date(available_from)")
     .add("Date('now')", FilterBuilderOperator.LTE, "Date(available_until)")
+const categoriesFilter = new Filter()
+    .add("instr(available_days, strftime('%w', date('now')))", FilterBuilderOperator.GT, "0")
+    .add("time('now')", FilterBuilderOperator.GTE, "time(available_from_hour)")
+    .add("time('now')", FilterBuilderOperator.LTE, "time(available_until_hour)")
 const { data: ticket, refetch: refetchTicket } = useQuery({
     queryKey: ['ticket', ticketId],
     queryFn: () => pos.ticket.findTicket(ticketId),
@@ -22,13 +26,13 @@ const { data: ticket, refetch: refetchTicket } = useQuery({
 })
 const { data: categories } = useQuery({
     queryKey: ['categories'],
-    queryFn: () => pos.category.getCategories(),
+    queryFn: () => pos.category.getCategories(categoriesFilter),
     initialData: [],
     refetchInterval: 5000,
 })
 const { data: productsByCategory, refetch: refetchProductsByCategory } = useQuery({
     queryKey: ['products', 'category'],
-    queryFn: () => pos.product.getProductsByCategory(currentCategory.value.id, filters),
+    queryFn: () => pos.product.getProductsByCategory(currentCategory.value.id, productsFilter),
     initialData: [],
     refetchInterval: 5000,
 })
