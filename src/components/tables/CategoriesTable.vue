@@ -45,8 +45,8 @@ const showModal = (id) => document.getElementById(id).showModal()
                     <td>{{ category.name }}</td>
                     <td>{{ dayjs(category.available_from).format('DD MMMM YYYY') }}</td>
                     <td>{{ dayjs(category.available_until).format('DD MMMM YYYY') }}</td>
-                    <td>{{ category.available_from_hour || '00:00' }} hrs</td>
-                    <td>{{ category.available_until_hour || '00:00' }} hrs</td>
+                    <td>{{ category.available_from_hour }} hrs</td>
+                    <td>{{ category.available_until_hour }} hrs</td>
                     <td class="w-1/5">
                         <span v-for="d in category.available_days.split(',')" v-show="d != ''"
                             class="badge badge-accent badge-sm font-semibold mx-[1px]">
