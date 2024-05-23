@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 import { useQuery } from '@tanstack/vue-query';
 import { PosSingleton } from '@/services/pos-service'
@@ -63,6 +63,14 @@ const addTicketProduct = (productId) => pos.ticket.addProduct(ticket.value.id, p
 const deleteTicketProduct = (productId) => pos.ticket.deleteProduct(ticket.value.id, productId).then(_ => refetchTicket())
 const cancelTicket = () => pos.ticket.deleteTicket(ticket.value.id).then(goToTickets)
 const orderProducts = () => pos.ticket.orderTicket(ticket.value.id).then(goToTickets)
+
+onMounted(() => {
+    if (ticket.value && ticket.value.ticket_status && ticket.value.ticket_status != 'paid') {
+        ticketProducts.value = Object.groupBy(ticket.value.ticket_products, ({ product_id }) => product_id)
+    }
+    if (categories.value.length)
+        currentCategory.value = categories.value[0]
+})
 </script>
 
 <template>
