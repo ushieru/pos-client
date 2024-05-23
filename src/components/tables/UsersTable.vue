@@ -42,7 +42,7 @@ const showModal = (id) => document.getElementById(id).showModal()
     <div class="overflow-x-auto">
         <table class="table">
             <thead>
-                <tr>
+                <tr class="border-neutral border-b-2">
                     <th>id</th>
                     <th>Nombre</th>
                     <th>Email</th>
@@ -53,7 +53,7 @@ const showModal = (id) => document.getElementById(id).showModal()
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in data">
+                <tr v-for="user in data" class="border-neutral">
                     <th>{{ user.id }}</th>
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
