@@ -2,7 +2,9 @@
 import { useQuery } from '@tanstack/vue-query'
 import dayjs from 'dayjs'
 import { PosSingleton } from '@/services/pos-service'
+import { ref } from 'vue';
 const pos = PosSingleton.instance
+const search = ref('')
 const { data, refetch } = useQuery({
     queryKey: ['products'],
     queryFn: () => pos.product.getProducts(),
@@ -25,6 +27,10 @@ const showModal = (id) => document.getElementById(id).showModal()
 </script>
 
 <template>
+    <label class="input input-borderedflex flex items-center gap-2 mb-5">
+        <span class="material-symbols-outlined"> search </span>
+        <input v-model="search" type="text" class="bg-base-100 grow" placeholder="Buscar" />
+    </label>
     <div class="overflow-x-auto">
         <table class="table">
             <thead>
@@ -42,7 +48,8 @@ const showModal = (id) => document.getElementById(id).showModal()
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="product in data" class="border-neutral">
+                <tr v-for="product in data.filter(d => d.name.toLowerCase().startsWith(search.toLowerCase()))"
+                    class="border-neutral">
                     <th>{{ product.id }}</th>
                     <td>{{ product.name }}</td>
                     <td class="w-1/6">{{ product.description }}</td>
