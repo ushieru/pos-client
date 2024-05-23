@@ -48,6 +48,12 @@ export class Ticket {
             .then(r => r.json())
     }
 
+    async orderTicket(ticketId: number) {
+        return fetch(`${this.serviceUri}/${ticketId}/order`,
+            { method: "PUT", headers: { 'Authorization': `Bearer ${this.authStore.session.token}` } })
+            .then(r => r.json())
+    }
+
     async deleteTicket(ticketId: number) {
         return fetch(`${this.serviceUri}/${ticketId}`,
             { method: "DELETE", headers: { 'Authorization': `Bearer ${this.authStore.session.token}` } })

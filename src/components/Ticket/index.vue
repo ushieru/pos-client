@@ -12,6 +12,7 @@ const route = useRoute()
 const router = useRouter()
 const { id: ticketId } = route.params
 const currentCategory = ref(undefined)
+const ticketProducts = ref([])
 const productsFilter = new Filter()
     .add("Date('now')", FilterBuilderOperator.GTE, "Date(available_from)")
     .add("Date('now')", FilterBuilderOperator.LTE, "Date(available_until)")
@@ -42,7 +43,10 @@ watch(categories, (categories) => {
     refetchProductsByCategory()
 }, { once: true })
 watch(ticket, (ticket) => {
-    if (ticket.ticket_status != 'paid') return
+    if (ticket.ticket_status != 'paid') {
+        ticketProducts.value = Object.groupBy(ticket.ticket_products, ({ product_id }) => product_id)
+        return
+    }
     document.getElementById('paid_modal').showModal()
 })
 const selectCategory = (category) => {
@@ -58,6 +62,7 @@ const goToTickets = () => {
 const addTicketProduct = (productId) => pos.ticket.addProduct(ticket.value.id, productId).then(_ => refetchTicket())
 const deleteTicketProduct = (productId) => pos.ticket.deleteProduct(ticket.value.id, productId).then(_ => refetchTicket())
 const cancelTicket = () => pos.ticket.deleteTicket(ticket.value.id).then(goToTickets)
+const orderProducts = () => pos.ticket.orderTicket(ticket.value.id).then(goToTickets)
 </script>
 
 <template>
@@ -80,9 +85,12 @@ const cancelTicket = () => pos.ticket.deleteTicket(ticket.value.id).then(goToTic
                             <div class="indicator w-full">
                                 <span v-if="ticket"
                                     v-show="ticket.ticket_products.find(p => p.product_id == product.id)"
-                                    class="indicator-item badge badge-primary">
-                                    {{ ticket.ticket_products.find(p => p.product_id == product.id)?.quantity }}
-                                </span>
+                                    class="indicator-item badge badge-primary">{{
+                        ticket
+                            .ticket_products
+                            .filter(p => p.product_id == product.id)
+                            .reduce(acc => ++acc, 0)
+                    }} </span>
                                 <button class="btn btn-neutral flex flex-col w-full h-40"
                                     @click="addTicketProduct(product.id)">
                                     <span> {{ product.name }}</span>
@@ -100,9 +108,9 @@ const cancelTicket = () => pos.ticket.deleteTicket(ticket.value.id).then(goToTic
                     </button>
                     <dialog id="ticket_modal" class="modal">
                         <div class="modal-box flex flex-col h-[80%]">
-                            <Ticket v-if="ticket" :goToTickets="goToTickets" :session="session" :ticket="ticket"
-                                :addTicketProduct="addTicketProduct" :deleteTicketProduct="deleteTicketProduct"
-                                :cancelTicket="cancelTicket" />
+                            <Ticket v-if="ticket" :session="session" :ticket="ticket" :ticketProducts="ticketProducts"
+                                :orderProducts="orderProducts" :addTicketProduct="addTicketProduct"
+                                :deleteTicketProduct="deleteTicketProduct" :cancelTicket="cancelTicket" />
                         </div>
                         <form method="dialog" class="modal-backdrop">
                             <button>close</button>
@@ -113,9 +121,9 @@ const cancelTicket = () => pos.ticket.deleteTicket(ticket.value.id).then(goToTic
         </div>
         <div class="hidden lg:flex card bg-base-200 shadow-xl w-[450px] h-[95vh]">
             <div v-if="ticket" class="card-body h-full">
-                <Ticket v-if="ticket" :goToTickets="goToTickets" :session="session" :ticket="ticket"
-                    :addTicketProduct="addTicketProduct" :deleteTicketProduct="deleteTicketProduct"
-                    :cancelTicket="cancelTicket" />
+                <Ticket v-if="ticket" :session="session" :ticket="ticket" :ticketProducts="ticketProducts"
+                    :orderProducts="orderProducts" :addTicketProduct="addTicketProduct"
+                    :deleteTicketProduct="deleteTicketProduct" :cancelTicket="cancelTicket" />
             </div>
         </div>
     </div>
