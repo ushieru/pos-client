@@ -9,6 +9,18 @@ const { data, refetch } = useQuery({
     initialData: [],
     refetchInterval: 5000,
 })
+const weekdayName = (weekday) => {
+    switch (weekday) {
+        case 0: return 'Domingo'
+        case 1: return 'Lunes'
+        case 2: return 'Martes'
+        case 3: return 'Miercoles'
+        case 4: return 'Jueves'
+        case 5: return 'Viernes'
+        case 6: return 'Sabado'
+    }
+    return 'unknown'
+}
 const showModal = (id) => document.getElementById(id).showModal()
 </script>
 
@@ -16,24 +28,35 @@ const showModal = (id) => document.getElementById(id).showModal()
     <div class="overflow-x-auto">
         <table class="table">
             <thead>
-                <tr>
+                <tr class="border-neutral border-b-2">
                     <th>id</th>
                     <th>Nombre</th>
                     <th>Descripcion</th>
                     <th>Precio</th>
                     <th>Disponible desde</th>
                     <th>Disponible hasta</th>
+                    <th>Desde hora</th>
+                    <th>Hasta hora</th>
+                    <th>Dias</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="product in data">
+                <tr v-for="product in data" class="border-neutral">
                     <th>{{ product.id }}</th>
                     <td>{{ product.name }}</td>
-                    <td>{{ product.description }}</td>
+                    <td class="w-1/6">{{ product.description }}</td>
                     <td>${{ product.price }}</td>
                     <td>{{ dayjs(product.available_from).format('DD MMMM YYYY') }}</td>
                     <td>{{ dayjs(product.available_until).format('DD MMMM YYYY') }}</td>
+                    <td>{{ product.available_from_hour }} hrs</td>
+                    <td>{{ product.available_until_hour }} hrs</td>
+                    <td class="w-1/6">
+                        <span v-for="d in product.available_days.split(',')" v-show="d != ''"
+                            class="badge badge-accent badge-sm font-semibold mx-[1px]">
+                            {{ weekdayName(+d) }}
+                        </span>
+                    </td>
                     <td class="flex gap-2">
                         <button class="btn btn-sm btn-error" @click="showModal(`delete_product_${product.id}`)">
                             <span class="material-symbols-outlined">
