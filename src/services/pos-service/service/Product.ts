@@ -1,6 +1,6 @@
 import { AuthStore } from "../store/AuthStore"
 import { Filter } from "../util/Filter"
-import { Product as ProductModel } from "../model/Product"
+import { Product as ProductModel, UpsertProductDTO } from "../model/Product"
 
 export class Product {
     constructor(
@@ -38,13 +38,12 @@ export class Product {
             .then(r => r.json())
     }
 
-    async createProduct(name: string, description: string, price: number, available_from: Date, available_until: Date): Promise<ProductModel> {
-        const dto = {
-            name,
-            description,
-            price,
-            available_from: available_from.toISOString(),
-            available_until: available_until.toISOString()
+    async createProduct(dto: UpsertProductDTO): Promise<ProductModel> {
+        const _dto = {
+            ...dto,
+            available_days: dto.available_days.toString(),
+            available_from: dto.available_from.toISOString(),
+            available_until: dto.available_until.toISOString(),
         }
         const init = {
             method: 'POST',
@@ -52,7 +51,7 @@ export class Product {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${this.authStore.session.token}`
             },
-            body: JSON.stringify(dto)
+            body: JSON.stringify(_dto)
         }
         const response = await fetch(this.serviceUri, init)
         const jsonResponse = await response.json()
@@ -60,13 +59,12 @@ export class Product {
         return jsonResponse
     }
 
-    async updateProduct(id: number, name: string, description: string, price: number, available_from: Date, available_until: Date): Promise<ProductModel> {
-        const dto = {
-            name,
-            description,
-            price,
-            available_from: available_from.toISOString(),
-            available_until: available_until.toISOString()
+    async updateProduct(id: number, dto: UpsertProductDTO): Promise<ProductModel> {
+        const _dto = {
+            ...dto,
+            available_days: dto.available_days.toString(),
+            available_from: dto.available_from.toISOString(),
+            available_until: dto.available_until.toISOString(),
         }
         const init = {
             method: 'PUT',
@@ -74,7 +72,7 @@ export class Product {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${this.authStore.session.token}`
             },
-            body: JSON.stringify(dto)
+            body: JSON.stringify(_dto)
         }
         const response = await fetch(`${this.serviceUri}/${id}`, init)
         const jsonResponse = await response.json()
