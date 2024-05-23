@@ -9,9 +9,7 @@ const { data, refetch } = useQuery({
     initialData: [],
     refetchInterval: 5000,
 })
-
 const session = pos.auth.session
-
 const toggleState = (user) => {
     pos.user.updateUser({
         id: user.id,
@@ -28,13 +26,11 @@ const toggleState = (user) => {
         refetch()
     }).catch(error => toast(error.message, 'error'))
 }
-
 const deleteUser = (user) => {
     pos.user.deleteUser(user.id)
         .then(refetch)
         .catch(error => toast(error.message, 'error'))
 }
-
 const showModal = (id) => document.getElementById(id).showModal()
 </script>
 
