@@ -10,11 +10,14 @@ export class Category {
         private readonly serviceUri = `${host}/api/categories`
     ) { }
 
-    async getCategories(filter?: Filter<CategoryModel>): Promise<CategoryModel[]> {
+    async getCategories(filter?: Filter<CategoryModel>, withProducts?: boolean): Promise<CategoryModel[]> {
         const init = {
             headers: { 'Authorization': `Bearer ${this.authStore.session.token}` }
         }
-        return fetch(`${this.serviceUri}?${filter ? filter.build() : ''}`, init).then(r => r.json())
+        let queryParams = ''
+        if (filter) queryParams += filter.build()
+        if (withProducts) queryParams += 'withProducts=true&'
+        return fetch(`${this.serviceUri}?${queryParams}`, init).then(r => r.json())
     }
 
     async getCategory(categoryId: number): Promise<CategoryModel[]> {
