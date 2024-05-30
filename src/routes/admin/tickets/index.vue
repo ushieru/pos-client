@@ -66,17 +66,17 @@ const showModal = (id) => document.getElementById(id).showModal()
                                     </button>
                                     <dialog :id="`ticket_products_${ticket.id}`" class="modal">
                                         <div class="modal-box flex flex-col max-h-[80%] gap-2">
-                                            <div v-for="ticketProduct in ticket.ticket_products"
+                                            <div v-for="ticketProduct in Object.groupBy(ticket.ticket_products, ({ product_id }) => product_id)"
                                                 class="card bg-base-100 shadow-xl">
                                                 <div class="card-body p-3">
                                                     <div class="flex justify-between">
-                                                        <span class="font-bold">{{ ticketProduct.name }}</span>
-                                                        <span>${{ ticketProduct.price }} c/u</span>
+                                                        <span class="font-bold">{{ ticketProduct[0].name }}</span>
+                                                        <span>${{ ticketProduct[0].price }} c/u</span>
                                                     </div>
                                                     <div class="flex justify-between">
-                                                        <span>{{ ticketProduct.quantity }}</span>
+                                                        <span>{{ ticketProduct.length }}</span>
                                                         <span>
-                                                            ${{ ticketProduct.price * ticketProduct.quantity }}
+                                                            ${{ ticketProduct[0].price * ticketProduct.length }}
                                                         </span>
                                                     </div>
                                                 </div>
