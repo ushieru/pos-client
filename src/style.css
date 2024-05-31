@@ -8,7 +8,7 @@ body,
   height: 100%;
 }
 
-body {
+* {
   -webkit-touch-callout: none;
   /* iOS Safari */
   -webkit-user-select: none;
