@@ -18,7 +18,7 @@ const {
 ])
 </script>
 <template>
-    <h1 class="text-2xl font-bold">Ticket #{{ ticket.id }}</h1>
+    <h1 class="text-2xl font-bold">Ticket: {{ ticket.id }}</h1>
     <div class="divider"></div>
     <div class="h-full overflow-y-auto gap-2 flex flex-col">
         <div v-for="ticketProduct in ticketProducts" class="card bg-base-100 shadow-xl">
@@ -30,7 +30,7 @@ const {
                 <div class="flex justify-between">
                     <span class="flex items-center gap-2">
                         <button class="btn btn-sm" @click="deleteTicketProduct(ticketProduct[0].product_id)"
-                            :disabled="!(ticketProduct.some(({ is_editable }) => is_editable))">
+                            :disabled="!(ticketProduct.some(({ status }) => status == 'Added'))">
                             <span v-if="ticketProduct.length == 1" class="material-symbols-outlined">
                                 delete
                             </span>
