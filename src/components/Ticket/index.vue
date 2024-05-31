@@ -14,6 +14,7 @@ const { id: ticketId } = route.params
 const currentCategory = ref(undefined)
 const ticketProducts = ref([])
 const productsFilter = new Filter()
+    .add("instr(available_days, strftime('%w', date('now')))", FilterBuilderOperator.GT, "0")
     .add("Date('now')", FilterBuilderOperator.GTE, "Date(available_from)")
     .add("Date('now')", FilterBuilderOperator.LTE, "Date(available_until)")
 const categoriesFilter = new Filter()
