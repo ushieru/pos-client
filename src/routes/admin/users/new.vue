@@ -56,6 +56,8 @@ const onSubmitCreateUser = (e) => {
                         <option value="admin">Administrador</option>
                         <option value="cashier">Cajero</option>
                         <option value="waiter">Mesero</option>
+                        <option value="cook">Cocinero</option>
+                        <option value="bartender">Bartender</option>
                     </select>
                 </label>
                 <label class="form-control w-full">
