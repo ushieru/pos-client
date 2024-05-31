@@ -24,6 +24,7 @@ import CashierTicketId from './routes/cashier/tickets/[id]/index.vue'
 import WaiterLayout from './layouts/WaiterLayout.vue'
 import WaiterTables from './routes/waiter/index.vue'
 import WaiterTicketId from './routes/waiter/tickets/[id]/index.vue'
+import Cook from './routes/cook/index.vue'
 import Config from './routes/config.vue'
 
 const routes = [
@@ -73,6 +74,11 @@ const routes = [
             { path: 'tickets/:id', component: WaiterTicketId },
         ]
     },
+    {
+        path: '/cook', children: [
+            { path: '', component: Cook },
+        ]
+    },
 ]
 
 export const router = createRouter({
@@ -88,6 +94,7 @@ router.beforeEach((to, _, next) => {
         if (to.path == '/' && account_type == 'admin') return next({ path: '/admin' })
         if (to.path == '/' && account_type == 'cashier') return next({ path: '/cashier' })
         if (to.path == '/' && account_type == 'waiter') return next({ path: '/waiter' })
+        if (to.path == '/' && account_type == 'cook') return next({ path: '/cook' })
     }
     if (to.path == '/config') return next()
     if (to.path != '/' && !session) return next({ path: '/' })

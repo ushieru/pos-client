@@ -16,6 +16,7 @@ const onLoginSubmit = (e) => {
             if (session.user.account.account_type == 'admin') return router.push("/admin");
             if (session.user.account.account_type == 'cashier') return router.push("/cashier");
             if (session.user.account.account_type == 'waiter') return router.push("/waiter");
+            if (session.user.account.account_type == 'cook') return router.push("/cook");
         }).catch(error => {
             toast(error.message, 'error')
         })
