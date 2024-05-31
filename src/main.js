@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { VueQueryPlugin } from '@tanstack/vue-query'
-import './style.css'
 import 'material-symbols';
+import './style.css'
 import { router } from './router'
 import App from './App.vue'
 import { PosSingleton } from './services/pos-service'
