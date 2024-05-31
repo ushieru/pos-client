@@ -3,6 +3,7 @@ import { Category } from "./service/Category";
 import { Product } from "./service/Product";
 import { Table } from "./service/Table";
 import { Ticket } from "./service/Ticket";
+import { TicketProduct } from "./service/TicketProcuct";
 import { User } from "./service/User";
 import { AuthStore } from "./store/AuthStore";
 import { AuthStoreLocalStorage } from "./store/AuthStoreLocalStorage";
@@ -13,6 +14,7 @@ export class Pos {
     readonly product: Product
     readonly table: Table
     readonly ticket: Ticket
+    readonly ticketProduct: TicketProduct
     readonly user: User
 
     constructor(
@@ -24,6 +26,7 @@ export class Pos {
         this.product = new Product(host, authStore)
         this.table = new Table(host, authStore)
         this.ticket = new Ticket(host, authStore)
+        this.ticketProduct = new TicketProduct(host, authStore)
         this.user = new User(host, authStore)
     }
 
