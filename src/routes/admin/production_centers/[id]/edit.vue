@@ -20,7 +20,7 @@ watch(error, () => {
 })
 const onSubmitCreateProductionCenter = (e) => {
     pos.productionCenter
-        .update(e.target.name.value)
+        .update(productionCenterId, e.target.name.value)
         .then(_ => {
             e.target.reset()
             toast('Centro de produccion creado correctamente', 'success')
