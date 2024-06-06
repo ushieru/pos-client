@@ -24,10 +24,10 @@ const { data: categories } = useQuery({
                 <span class="loading loading-dots loading-lg"></span>
             </div>
             <div v-if="product" class="card-body">
-                <h1 class="text-2xl">
-                    <span>#{{ product.id }}</span>
-                    - {{ product.name }}
+                <h1 class="text-xl font-bold">
+                    {{ product.name }}
                 </h1>
+                <h2 class="text-sm">ID: {{ product.id }}</h2>
             </div>
         </div>
         <div v-if="product" class="flex gap-4">
@@ -36,6 +36,7 @@ const { data: categories } = useQuery({
                     <h1 class="text-xl">
                         Categorias
                     </h1>
+                    <div class="divider m-0"></div>
                     <button v-if="categories"
                         v-for="category in categories.filter(category => !product.categories.map(c => c.id).find(id => id == category.id))"
                         @click="() => pos.product.addProductCategory(product.id, category.id).then(refetchProduct)"
@@ -47,8 +48,9 @@ const { data: categories } = useQuery({
             <div class="card bg-base-200 shadow-xl w-full">
                 <div class="card-body">
                     <h1 class="text-xl">
-                        Categorias del producto: {{ product.name }}
+                        Categorias de {{ product.name }}
                     </h1>
+                    <div class="divider m-0"></div>
                     <button v-for="category in product.categories"
                         @click="() => pos.product.deleteProductCategory(product.id, category.id).then(refetchProduct)"
                         class="btn btn-secondary">

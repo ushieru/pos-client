@@ -1,6 +1,7 @@
 import { Auth } from "./service/Auth";
 import { Category } from "./service/Category";
 import { Product } from "./service/Product";
+import { ProductionCenter } from "./service/ProductionCenter";
 import { Table } from "./service/Table";
 import { Ticket } from "./service/Ticket";
 import { TicketProduct } from "./service/TicketProcuct";
@@ -16,6 +17,7 @@ export class Pos {
     readonly ticket: Ticket
     readonly ticketProduct: TicketProduct
     readonly user: User
+    readonly productionCenter: ProductionCenter
 
     constructor(
         readonly host: string,
@@ -28,6 +30,7 @@ export class Pos {
         this.ticket = new Ticket(host, authStore)
         this.ticketProduct = new TicketProduct(host, authStore)
         this.user = new User(host, authStore)
+        this.productionCenter = new ProductionCenter(host, authStore)
     }
 
     async ping(host: string) {

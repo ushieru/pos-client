@@ -82,6 +82,7 @@ const onSubmitUpdateUser = (e) => {
                         <option :selected="user.account.account_type == 'admin'" value="admin">Administrador</option>
                         <option :selected="user.account.account_type == 'cashier'" value="cashier">Cajero</option>
                         <option :selected="user.account.account_type == 'waiter'" value="waiter">Mesero</option>
+                        <option :selected="user.account.account_type == 'producer'" value="waiter">Productor</option>
                     </select>
                 </label>
                 <label class="form-control w-full">

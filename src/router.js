@@ -14,6 +14,11 @@ import Products from './routes/admin/products/index.vue'
 import NewProduct from './routes/admin/products/new.vue'
 import EditProduct from './routes/admin/products/[id]/edit.vue'
 import ProductCategories from './routes/admin/products/[id]/categories/index.vue'
+import ProductionCenters from './routes/admin/production_centers/index.vue'
+import NewProductionCenters from './routes/admin/production_centers/new.vue'
+import EditProductionCenters from './routes/admin/production_centers/[id]/edit.vue'
+import AccountsProductionCenters from './routes/admin/production_centers/[id]/accounts.vue'
+import CategoriesProductionCenters from './routes/admin/production_centers/[id]/categories.vue'
 import Tables from './routes/admin/tables/index.vue'
 import Tickets from './routes/admin/tickets/index.vue'
 import CashierLayout from './layouts/CashierLayout.vue'
@@ -24,7 +29,7 @@ import CashierTicketId from './routes/cashier/tickets/[id]/index.vue'
 import WaiterLayout from './layouts/WaiterLayout.vue'
 import WaiterTables from './routes/waiter/index.vue'
 import WaiterTicketId from './routes/waiter/tickets/[id]/index.vue'
-import Cook from './routes/cook/index.vue'
+import ProductionCenter from './routes/production_center/index.vue'
 import Config from './routes/config.vue'
 
 const routes = [
@@ -56,6 +61,15 @@ const routes = [
                     { path: ':id/categories', component: ProductCategories },
                 ]
             },
+            {
+                path: 'production-centers', children: [
+                    { path: '', component: ProductionCenters },
+                    { path: 'new', component: NewProductionCenters },
+                    { path: ':id/edit', component: EditProductionCenters },
+                    { path: ':id/accounts', component: AccountsProductionCenters },
+                    { path: ':id/categories', component: CategoriesProductionCenters },
+                ]
+            },
             { path: 'tables', component: Tables },
             { path: 'tickets', component: Tickets },
         ]
@@ -75,8 +89,8 @@ const routes = [
         ]
     },
     {
-        path: '/cook', children: [
-            { path: '', component: Cook },
+        path: '/production-center', children: [
+            { path: '', component: ProductionCenter },
         ]
     },
 ]
