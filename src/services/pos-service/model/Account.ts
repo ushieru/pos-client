@@ -6,5 +6,5 @@ export interface Account {
     username: string
     is_active: boolean
     account_type: string
-    user_id: number
+    user_id: string
 }
