@@ -52,7 +52,7 @@ const toggleDrawer = () => document.getElementById('my-drawer').click()
                     </RouterLink>
                 </li>
                 <li @click="toggleDrawer">
-                    <RouterLink to="/admin/production-centers" class="font-semibold grid place-content-center h-12 text-clip"
+                    <RouterLink to="/admin/production-centers" class="text-center font-semibold grid place-content-center h-12 text-clip"
                         :exact-active-class="'bg-gray-200/10 rounded-lg'">
                         Centros producción
                     </RouterLink>
